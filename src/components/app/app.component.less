@@ -1,0 +1,118 @@
+@import "../../styles/mixins";
+
+:host {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	&:extend(.scrollbar);
+
+	display: flex;
+	flex-direction: column;
+}
+
+.header {
+	padding: 2rem;
+	background: @primary-dark;
+	box-sizing: border-box;
+}
+
+.header .h1 {
+	color: white;
+	text-align: center;
+	font-size: 2vw;
+}
+
+.controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	z-index: 10001;
+	padding: 2rem;
+}
+
+.controls .button {
+	margin-left: 1rem;
+	min-width: 13.75rem;
+}
+
+.time-tracker {
+	font-weight: 600;
+	box-sizing: border-box;
+}
+
+.content-panel {
+	padding: 0 2rem 2rem 2rem;
+	box-sizing: border-box;
+}
+
+.content-panel .h2,
+.content-panel .p,
+.content-panel iframe {
+	display: block;
+	width: 100%;
+	padding: 1rem;
+	max-width: 60rem;
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+
+.content-panel .h2.wide,
+.content-panel .p.wide,
+.content-panel iframe.wide {
+	max-width: initial;
+	padding-left: 0;
+}
+
+.content-panel .h2 a {
+	text-decoration: none;
+}
+
+.content-panel iframe {
+	padding: 0;
+	height: 30rem;
+	flex: 1 1 auto;
+	border: 0;
+}
+
+.content-panel .buttons {
+	text-align: center;
+}
+
+.content-panel.about {
+	display: flex;
+	flex-direction: column;
+}
+
+:host::ng-deep .modal .modal-content {
+	width: ~'calc(100% - 2rem)';
+	height: ~'calc(100% - 2rem)';
+	max-width: 40rem;
+	max-height: 30rem;
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+
+	.modal-header {
+		padding: 1rem;
+		background: @primary-dark;
+		color: white;
+	}
+
+	.modal-body {
+		padding: 1rem;
+		flex: 1 1 auto;
+
+		.p + .p {
+			margin-top: 1rem;
+		}
+	}
+
+	.buttons {
+		padding: 1rem;
+		display: flex;
+		justify-content: flex-end;
+	}
+}

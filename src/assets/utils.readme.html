@@ -1,0 +1,171 @@
+<title>EMS Utility Methods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style> body { font-family: 'Open Sans', sans-serif; background: #111; color:  white; padding: 1rem } h3 { color: #0cf; } 
+body::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar
+{
+    width: 6px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb
+{
+    background-color: #027DFA;
+    border-radius: 4px;
+}
+
+scrollbar-color: #027DFA white;
+
+</style>
+<h3 id="alphabetizeparameters-any-any">alphabetize(...parameters: any[]): any</h3>
+<p>Can be used as the callback argument to Array.sort</p>
+<pre><code>([&quot;e&quot;,&quot;a&quot;,&quot;c&quot;, &quot;d&quot;, &quot;b&quot;]).sort(alphabetize); // [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]
+</code></pre>
+<p>Also can be used to alphabetize array of objects using key (note: this method mutates original array)</p>
+<pre><code>alphabetize([{&quot;label&quot;: &quot;b&quot;}, { &quot;label&quot;: &quot;a&quot; }], &quot;label&quot;); //[{ &quot;label&quot;: &quot;a&quot; }, {&quot;label&quot;: &quot;b&quot;}]
+</code></pre>
+<h3 id="cloneobj-any-any">clone(obj: any): any</h3>
+<p>Creates a deep copy of the supplied object. References are not maintained. Recursion not supported.</p>
+<pre><code>const copy = clone({hello: [{ nested: &quot;object&quot;, params: [1,2,3] }]}); //{hello: [{ nested: &quot;object&quot;, params: [1,2,3] }]}
+</code></pre>
+<h3 id="datestringsdate-date--year-string-month-string-date-string-time-string-seconds-string-">dateStrings(date?: Date): { year: string, month: string, date: string, time: string seconds: string }</h3>
+<p>Returns a hash of date properties as strings (for formatting)</p>
+<pre><code>const dateinfo = dateStrings(new Date(&quot;2021/01/01&quot;)); { year: &quot;2021&quot;, &quot;month&quot;: &quot;01&quot;, &quot;date&quot;: &quot;01&quot;, &quot;time&quot;: &quot;00:00&quot;, &quot;seconds&quot;: &quot;00&quot; }
+</code></pre>
+<h3 id="delaymethod---void-ms-number--0-number">delay(method: () =&gt; void, ms: number = 0): number</h3>
+<p>Alias for window.setTimeout</p>
+<pre><code>delay(() =&gt; console.log(&quot;test&quot;)); // same as window.setTimeout(() =&gt; console.log(&quot;test&quot;), 0);
+delay(() =&gt; console.log(&quot;test&quot;),100); // same as window.setTimeout(() =&gt; console.log(&quot;test&quot;), 100);
+</code></pre>
+<h3 id="downloadcontent-string-name-string-extension-string--csvvoid">download(content: string, name: string, extension: string = &quot;csv&quot;):void</h3>
+<p>Downloads in memory string as file (in web browser)</p>
+<pre><code>download(&quot;header 1,header 2\nvalue 1, value 2\nvalue 3, value 4&quot;,&quot;Sample Spreadseet&quot;, &quot;csv&quot;); //outputs: &quot;sample-spreadsheet.csv&quot; as CSV file
+</code></pre>
+<h3 id="emptye-any-boolean">empty(e: any): boolean</h3>
+<pre><code>alias for falsy
+</code></pre>
+<h3 id="falsye-any-boolean">falsy(e: any): boolean</h3>
+<p>Evaluates whether supplied object is falsy or empty</p>
+<pre><code>const obj = {}; falsy(obj); //true
+const obj = {hello: &quot;world&quot;}; falsy(obj); //false
+const arr = []; falsy(arr); //true
+const arr = [1,2,3]; falsy(arr); //false
+const str = &quot;&quot;; falsy(str); //true
+const str = &quot;   &quot;; falsy(str); //true
+const str = &quot;hello&quot;; falsy(str); //false
+const bool = false; falsy(bool); //true
+const bool = true; falsy(bool); //false
+const boolString = &quot;False&quot;; falsy(boolString); //true
+const boolString = &quot;false&quot;; falsy(boolString); //true
+const boolString = &quot;FalSe&quot;; falsy(boolString); //true
+const boolString = &quot;true&quot;; falsy(boolString); //false
+const num = 0; falsy(num); //true
+const num = -1; falsy(num); //false
+const num = 1; falsy(num); //false
+</code></pre>
+<h3 id="focusselector-string-number">focus(selector: string): number</h3>
+<p>Sets browser focus on supplied element</p>
+<pre><code>const $button = $(&quot;body&quot;).add(&quot;&lt;button class=&#39;focus-me&#39;&gt;Focus Me&lt;/button&gt;&quot;);
+focus(&quot;.focus-me&quot;); //focuses button after one turn of JS engine
+</code></pre>
+<h3 id="getlargestremaindervalues-number-desiredsum-number-number">getLargestRemainder(values: number[], desiredSum: number): number[]</h3>
+<p>Handles rounding errors when calculating sub percentages of a data set. Ensures that all segments add up to 100%.</p>
+<pre><code>getLargestRemainder([24, 25, 50]); // [25,25,50]
+</code></pre>
+<h3 id="getparamsrequestedproperty-string-any">getparams(requestedProperty?: string): any</h3>
+<p>Returns get parameters from the browser url</p>
+<pre><code>getparams(); // { debug: true, userId: 1, hello: &quot;world&quot; } where http://localhost/?debug=true&amp;userId=1&amp;hello=world
+getparams(&quot;hello&quot;); // &quot;world&quot; where http://localhost/?debug=true&amp;userId=1&amp;hello=world
+</code></pre>
+<h3 id="issete-any-boolean">isset(e: any): boolean</h3>
+<pre><code>alias for truthy
+</code></pre>
+<h3 id="kebabe-string-string">kebab(e: string): string</h3>
+<p>Converts string to kebab case</p>
+<pre><code>kebab(&quot;Hello Big_World 2022-01-01&quot;); // &quot;hello-big-world-2022-01-01&quot;
+</code></pre>
+<h3 id="replaceitemarray-any-item-any-key-string--id-position-string--current-any">replaceItem(array: any[], item: any, key: string = &#39;id&#39;, position: string = &#39;current&#39;): any</h3>
+<p>Swaps an item in an array with a newer value</p>
+<pre><code>const array = [ { id: 1, name: &quot;Old Name&quot; }, { id: 2, name: &quot;Test User&quot; }];
+replaceItem(array, {id: 1, name: &quot;New Name&quot;}); // [ { id: 1, name: &quot;New Name&quot; }, { id: 2, name: &quot;Test User&quot; }]
+
+const array2 = [ { id: 1, name: &quot;Old Name&quot; }, { id: 2, name: &quot;Test User&quot; }];
+replaceItem(array, { id: 200, name: &quot;Test User&quot; }, &quot;name&quot;); // [ { id: 1, name: &quot;Old Name&quot; }, { id: 200, name: &quot;Test User&quot; }]
+</code></pre>
+<h3 id="snakecasee-string-string">snakecase(e: string): string</h3>
+<p>Converts string to snake case</p>
+<pre><code>snakecase(&quot;Hello Big-World 2022-01-01&quot;); // &quot;hello_big_world_2022_01_01&quot;
+</code></pre>
+<h3 id="tickreturnvalue-any-promise">tick(returnValue?: any): Promise<any></h3>
+<p>Awaits one turn of the JS engine</p>
+<pre><code>async function test() {
+    $(&quot;.torender&quot;).css(&quot;display&quot;,&quot;block&quot;).addClass(&quot;transparent&quot;); //renders the object on screen with 0 opactiy
+    await tick(); // browser tick paints the above state
+    $(&quot;.torender&quot;).removeClass(&quot;transparent); //animates opacity to 1 to fade in object
+}
+</code></pre>
+<h3 id="timestampdate-date-includetime-boolean--true-string">timestamp(date?: Date, includeTime: boolean = true): string</h3>
+<p>Returns MySQL date/time string from optionally supplied date</p>
+<pre><code>const date = new Date(&quot;2021/01/01&quot;); 
+const dateString = timestamp(date); // &quot;2021-01-01 00:00:00&quot;;
+const dateString2 = timestamp(date, false); // &quot;2021-01-01&quot;;
+const nowDateString = timestamp(); // whatever the current date time is
+</code></pre>
+<h3 id="traceparameters-any">trace(...parameters: any[])</h3>
+<p>Outputs each argument to a line in console log <strong>IF ?debug=true parameter is set on the url</strong>
+(This method is an homage to the like-named, late great ActionScript 2 utility function)</p>
+<pre><code>trace(someObject, anotherObject, &quot;---&quot;, 123); //four console logs at http://localhost/?debug=true
+</code></pre>
+<h3 id="trime-string-string">trim(e: string): string</h3>
+<p>Removes leading and trailing whitespace from string</p>
+<pre><code>trim(&quot;  hello   &quot;); // &quot;hello&quot;
+</code></pre>
+<h3 id="truthyeany-boolean">truthy(e:any): boolean</h3>
+<p>Evaluates whether supplied object is truthy or populated</p>
+<pre><code>const obj = {}; truthy(obj); //false
+const obj = {hello: &quot;world&quot;}; truthy(obj); //true
+const arr = []; truthy(arr); //false
+const arr = [1,2,3]; truthy(arr); //true
+const str = &quot;&quot;; truthy(str); //false
+const str = &quot;   &quot;; truthy(str); //false
+const str = &quot;hello&quot;; truthy(str); //true
+const bool = false; truthy(bool); //false
+const bool = true; truthy(bool); //true
+const boolString = &quot;False&quot;; truthy(boolString); //false
+const boolString = &quot;false&quot;; truthy(boolString); //false
+const boolString = &quot;FalSe&quot;; truthy(boolString); //false
+const boolString = &quot;true&quot;; truthy(boolString); //true
+const num = 0; truthy(num); //false
+const num = -1; truthy(num); //true
+const num = 1; truthy(num); //true
+</code></pre>
+<h3 id="validateemailemailstring-boolean">validateEmail(email:string): boolean</h3>
+<p>Applies regex to test for valid email</p>
+<pre><code>validateEmail(&quot;test@test&quot;); //false
+validateEmail(&quot;test@test.co&quot;); //true
+</code></pre>
+<p>Uses regex ex:</p>
+<pre><code>/^(([^&lt;&gt;()[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+</code></pre>
+<h3 id="viewportel-htmlelement-percentvisible-number--100-boolean">viewport(el: HTMLElement, percentVisible: number = 100): boolean</h3>
+<p>Determines whether the supplied object is within the browser&#39;s viewport</p>
+<pre><code>const inRangeElement = $(&quot;.block.inview&quot;).get(0);
+const outOfRangeElement = $(&quot;.block.waydownbelow&quot;).get(0);
+let inView = viewport(inRangeElement); // true;
+inView = viewport(outOfRangeElement); // false
+</code></pre>
+<h2 id="build">Build</h2>
+<pre><code>npm run build
+git commit -a -m &quot;message&quot;
+npm version patch
+npm publish
+</code></pre>

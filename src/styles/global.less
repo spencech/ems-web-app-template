@@ -1,0 +1,46 @@
+@import "./mixins";
+
+body {
+	.sans;
+	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+  	background: white;
+}
+
+html, body, h1, h2, h3, h4, h5, p, ul, ol {
+	padding: 0;
+	margin: 0;
+}
+
+input, textarea, select, button {
+	.reset;
+}
+
+.accessible {
+	position: absolute;
+	left: -9999px;
+}
+
+.input.text.std {
+	&:extend(.input-std all);
+}
+
+.button.std {
+	&:extend(.btn-std all);
+}
+
+.button.sec {
+	&:extend(.btn-secondary all);
+}
+
+.select-wrapper.std {
+	&:extend(.select-std all);
+}
+
+.radio.std {
+	&:extend(.radio-std all);
+}
+
+.checkbox.std {
+	&:extend(.checkbox-std all);
+}

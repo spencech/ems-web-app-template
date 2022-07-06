@@ -1,0 +1,235 @@
+@import "variables.less";
+@import "palette.less";
+
+.reset {
+	margin: 0;
+	padding: 0;
+	font-size: 1rem;
+	font-family: inherit;
+	background: none;
+	border: 0;
+	list-style: none;
+	box-sizing: border-box;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.bulge,
+.bulge-sm,
+.bulgex2 {
+	transform: scale(1,1);
+	transform-origin: center;
+	transition: all @transition-speed;
+}
+
+.bulge:hover:not(:disabled) {
+	transform: scale(1.05,1.05);
+	transform-origin: center;
+	transition: all @transition-speed;
+}
+
+.bulge-sm:hover:not(:disabled) {
+	transform: scale(1.03,1.03);
+	transform-origin: center;
+	transition: all @transition-speed;
+}
+
+.bulgex2:hover:not(:disabled) {
+	transform: scale(1.15,1.15);
+	transform-origin: center;
+	transition: all @transition-speed;
+}
+
+.unbulge:hover:not(:disabled) {
+	transform: scale(1,1);
+	transform-origin: center;
+	transition: all @transition-speed;
+}
+
+.btn-std {
+
+	background: #ccc;
+	color: white;
+	padding: 0.25rem 1rem;
+	font-weight: 600;
+	font-size: 1.125rem;
+	border-radius: 4px;
+	border: solid 1px #ccc;
+	transition: all @transition-speed;
+	
+	&:not(:disabled) {
+		cursor: pointer;
+		background: @btn-primary-bgc;
+		border: solid 1px @btn-primary-bdc;
+		color: @btn-primary-c;
+		&:extend(.bulge all);
+	}
+}
+
+.btn-secondary {
+	&:extend(.btn-std all);
+	&:not(:disabled) {
+		background: white;
+		border: white;
+		color: @secondary-dark;
+	}
+}
+
+
+.scrollbar {
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	
+	&::-webkit-scrollbar-track
+	{
+		-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+		background-color: white;
+		border-radius: 4px;
+	}
+
+	&::-webkit-scrollbar
+	{
+		width: 6px;
+		background-color: white;
+		border-radius: 4px;
+	}
+
+	&::-webkit-scrollbar-thumb
+	{
+		background-color: @primary;
+		border-radius: 4px;
+	}
+
+	scrollbar-color: @primary white;
+}
+
+.radio-std {
+
+	position: absolute;
+	left: -9999px;
+
+	& + label {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		cursor: pointer;
+		background: white;
+		padding: 1rem;
+		border-radius: 0.5rem;
+	}
+
+	& + label:after {
+		content: "";
+		display: inline-block;
+		width: 1.25rem;
+		min-width: 1.25rem;
+		height: 1.25rem;
+		box-sizing: border-box;
+		border: solid 2px @secondary-light;
+		border-radius: 1.25rem;
+		margin-left: 1rem;
+		transition: background @transition-speed;
+	}
+
+	&:checked + label:after {
+		background: @secondary-light;
+		transition: background @transition-speed;
+	}
+}
+
+.checkbox-std {
+	&:extend(.radio-std all);
+	& + label:after {
+		border-radius: 0;
+	}
+}
+
+.select-std {
+	display: flex;
+	position: relative;
+	background: white;
+	border: solid 1px white;
+	color: @primary-dark;
+	max-width: 16rem;
+	justify-content: flex-start;
+	align-items: center;
+	cursor: pointer;
+	border-radius: 0.5rem;
+	font-size: 1.75rem;
+	font-weight: 800;
+
+	&:before {
+		position: absolute;
+		content: "\f13a";
+		display: inline-block;
+		font-family: "Font Awesome 5 Pro";
+		font-size: inherit;
+		font-weight: 700;
+		color: inherit;
+		top: 1.25rem;
+		right: 0.25rem;
+		pointer-events: none;
+	}
+
+	select {
+		margin: 0 auto;
+		box-sizing: border-box;
+		padding: 1rem 1.5rem;
+		display: block;
+		width: 100%;
+		height: 100%;
+		color: inherit;
+		font-family: inherit;
+		font-size: inherit;
+		font-weight: inherit;
+		text-align: left;
+		cursor: pointer;
+
+		&:focus {
+			outline: none;
+		}
+	}
+}
+
+.input-std {
+	.reset;
+	background: white;
+	border-radius: 0.5rem;
+	padding: 1.25rem;
+	color: @primary-dark;
+	border: solid 2px white;
+
+	&:-webkit-autofill,
+	&:-webkit-autofill:hover, 
+	&:-webkit-autofill:focus, 
+	&:-webkit-autofill:active{
+		background: white;
+	    -webkit-box-shadow: 0 0 0 50px white inset !important;
+	}
+
+	&:autofill,
+	&:autofill:hover, 
+	&:autofill:focus, 
+	&:autofill:active {
+		background: white;
+	    box-shadow: 0 0 0 50px white inset !important;
+	}
+
+
+
+	&:focus {
+		outline: none;
+		border: solid 2px @primary-dark;
+	}
+
+	&::placeholder { 
+	  color: @primary-dark;
+	  opacity: 1;
+	}
+
+	&::-ms-input-placeholder {
+	  color: @primary-dark;
+	}
+}

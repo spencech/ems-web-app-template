@@ -1,6 +1,7 @@
 {
   "name": "web-app-template",
-  "version": "0.0.0",
+  "author": "Chris Spence (https://educationalmediasolutions.com)",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -18,8 +19,14 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "ems-web-app-loader": "^0.0.9",
+    "ems-web-app-modal": "^0.0.13",
+    "ems-web-app-page-viewer": "^0.0.4",
+    "ems-web-app-seat-time": "^0.0.6",
+    "ems-web-app-utils": "^0.0.18",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "underscore": "^1.13.4",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -35,5 +42,21 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "typescript": "~4.5.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spencech/ems-web-app-template.git"
+  },
+  "keywords": [
+    "ems",
+    "educational media solutions",
+    "educational",
+    "media",
+    "solutions",
+    "web app",
+    "web application",
+    "template",
+    "angular.io",
+    "angular"
+  ]
 }
