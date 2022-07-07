@@ -9,7 +9,7 @@ import { SeatTimeModule } from "ems-web-app-seat-time";
 import { PipesModule } from "ems-web-app-pipes";
 
 describe('AppComponent', () => {
-  let modalService: ModalService, loaderService: LoaderService;
+  let modalService: ModalService, loaderService: LoaderService, viewerService: PageViewerService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -28,6 +28,7 @@ describe('AppComponent', () => {
 
      modalService = TestBed.inject(ModalService);
      loaderService = TestBed.inject(LoaderService);
+     viewerService = TestBed.inject(PageViewerService);
   });
 
   it('should create the app', () => {
@@ -89,6 +90,19 @@ describe('AppComponent', () => {
     tick(1200);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector("modal").classList.contains("render")).toBeFalsy();
+    discardPeriodicTasks()
+  }));
+
+  it('should render a page template when requested', fakeAsync(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    viewerService.setCurrentPage("home");
+    fixture.detectChanges();
+    tick(500);
+    fixture.detectChanges();
+    const viewer = fixture.nativeElement.querySelector("page-viewer")
+    expect(viewer.classList.contains("home")).toBeTruthy();
+    expect(viewer.children.length).toBeGreaterThan(0);
     discardPeriodicTasks()
   }));
 
