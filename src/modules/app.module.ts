@@ -7,17 +7,15 @@ import { ModalModule, ModalService } from "ems-web-app-modal";
 import { PageViewerModule, PageViewerService } from "ems-web-app-page-viewer";
 import { LoaderModule, LoaderService } from "ems-web-app-loader";
 import { SeatTimeModule } from "ems-web-app-seat-time";
-
+import { PipesModule } from "ems-web-app-pipes";
 
 import { AppComponent } from '../components';
 import { AppService, HttpService, ContentService } from "../services";
-import { SafePipe } from "../pipes";
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SafePipe
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +25,8 @@ import { SafePipe } from "../pipes";
     ModalModule,
     LoaderModule,
     PageViewerModule,
-    SeatTimeModule
+    SeatTimeModule,
+    PipesModule
   ],
   providers: [ ModalService, LoaderService, PageViewerService, AppService, HttpService, ContentService ],
   bootstrap: [ AppComponent ]

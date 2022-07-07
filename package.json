@@ -23,6 +23,7 @@
     "ems-web-app-loader": "^0.0.9",
     "ems-web-app-modal": "^0.0.13",
     "ems-web-app-page-viewer": "^0.0.4",
+    "ems-web-app-pipes": "^0.0.2",
     "ems-web-app-seat-time": "^0.0.6",
     "ems-web-app-utils": "^0.0.18",
     "rxjs": "~7.5.0",

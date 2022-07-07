@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - npm install -g @angular/cli@13.2.5
+  pre_build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR/platform-frontend && npm install
+  build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR/platform-frontend && ng build --configuration $STAGE --output-path $CODEBUILD_SRC_DIR/remote-build
+artifacts:
+  base-directory: $CODEBUILD_SRC_DIR/remote-build
+  files:
+    - '**/*'

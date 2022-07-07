@@ -3,7 +3,8 @@ import { LoaderService, LoaderType } from "ems-web-app-loader";
 import { PageViewerService } from "ems-web-app-page-viewer";
 import { ModalService, ModalData } from "ems-web-app-modal";
 import { trace, delay, kebab } from "ems-web-app-utils";
-import { Page, SanitizerType } from "../../classes";
+import { SanitizerType } from "ems-web-app-pipes";
+import { Page } from "../../classes";
 import { AppService, HttpService, ContentService } from "../../services";
 
 enum DocType {
@@ -11,7 +12,8 @@ enum DocType {
   Modal = "/assets/modal.readme.html",
   PageViewer = "/assets/page-viewer.readme.html",
   SeatTime = "/assets/seat-time.readme.html",
-  Utils ="/assets/utils.readme.html"
+  Utils ="/assets/utils.readme.html",
+  Pipes = "/assets/pipes.readme.html"
 }
 
 @Component({
