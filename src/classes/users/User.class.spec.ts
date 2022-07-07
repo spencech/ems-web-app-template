@@ -30,7 +30,7 @@ describe('User.class', () => {
 		expect(validUser.id).toBe("1");
 	});
 
-	it("should be valid if all fields defined and well formatted", () => {
+	it("should be valid if all fields are defined and well formatted", () => {
 		const validation = validUser.validate();
 		expect(validation).toBe(true);
 	})
