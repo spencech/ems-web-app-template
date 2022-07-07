@@ -37,6 +37,10 @@
           },
           "configurations": {
             "production": {
+              "index": {
+                "input": "src/html/index.prod.html",
+                "output": "index.html"
+              },
               "budgets": [
                 {
                   "type": "initial",
