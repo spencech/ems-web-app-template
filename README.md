@@ -4,10 +4,18 @@ This is a foundational template for web applications developed by [Educational M
 
 The template in its default/unextended state can be viewed here: [EMS Web Application Template](https://ems-web-app.educationalmediasolutions.com).
 
-## Usage
+
+## Usage: Local Development
 
 	npm i 
 	ng serve
+
+## Usage: Production
+
+	mv src/html/index.prod.example src/html/index.prod.html
+	ng build
+
+The "index.prod.html" file can include analytics and other production only content. Note that this file is git-ignored.
 
 ## Development server
 
