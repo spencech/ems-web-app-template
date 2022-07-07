@@ -4,7 +4,7 @@ import { PageViewerService } from "ems-web-app-page-viewer";
 import { ModalService, ModalData } from "ems-web-app-modal";
 import { trace, delay, kebab } from "ems-web-app-utils";
 import { SanitizerType } from "ems-web-app-pipes";
-import { Page } from "../../classes";
+import { Page, User } from "../../classes";
 import { AppService, HttpService, ContentService } from "../../services";
 
 enum DocType {
@@ -37,6 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public currentPageClass: string = "";
   public currentDoc: DocType = DocType.Utils;
   public requestedDoc: DocType = DocType.Utils;
+  public currentUser?: User;
 
   constructor(public content: ContentService, public loader: LoaderService, public viewer: PageViewerService, 
                 private app: AppService, private http: HttpService, private modal: ModalService) {
@@ -46,6 +47,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.viewer.page.subscribe(page => {
       this.currentPageClass = kebab(page ?? "");
+    });
+
+    this.app.user.subscribe(user => {
+      if(!user) return;
+      this.currentUser = user;
+      trace("current user loaded", user);
     })
   }
 
@@ -98,12 +105,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private async initialize() {
     this.loader.show();
+
+    const user = await this.http.getUser();
+    this.app.setCurrentUser(user);
     
-    delay(() => {
-      this.initialized = true;
-      this.viewer.setCurrentPage(Page.Home);
-      this.loader.hide();
-    }, 2000);
+    this.initialized = true;
+    this.viewer.setCurrentPage(Page.Home);
+    this.loader.hide();
   }
 
 }

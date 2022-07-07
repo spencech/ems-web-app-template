@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse, 
 import { Observable, Subject, BehaviorSubject, throwError, of } from 'rxjs';
 import { catchError, map, tap, take } from "rxjs/operators";
 import { trace, empty, getparams } from "ems-web-app-utils";
+import { IUser, User } from "../../classes";
 
 import * as _ from "underscore";
 
@@ -37,13 +38,12 @@ export class HttpService {
 	  	this.jwt = accessToken;
 	}
 
-	public authenticate(): Observable<any> {
+	public authenticate(): Promise<any> {
 		const request = `${environment.cognito.api}/userInfo`;
 		return this.executeGetRequest(request, undefined, true);
 	}
-
 	
-	public authorize(): Observable<any> {
+	public authorize(): Promise<any> {
 		const request = this.buildRequest(`authorize`);
 		return this.executeGetRequest(request, (response: any) => {
 			this.authorization = response.authorization;
@@ -51,41 +51,46 @@ export class HttpService {
 		}, true);
 	} 
 
-	private executeGetRequest(request: string, transform?: (input: any) => any, suppressErrors?: boolean ): Observable<any> {
+	public getUser(): Promise<User> {
+		const request = `/assets/user.stump.json`;
+		return this.executeGetRequest(request, User.generateUser);
+	}
+
+	private executeGetRequest(request: string, transform?: (input: any) => any, suppressErrors?: boolean ): Promise<any> {
 		const headers = this.headers();
 		return this.http.get(request, { headers, withCredentials: true } ).pipe(
 				map((result: any) => 
 					transform ?  transform(result) : result
 				),
 	      		catchError(suppressErrors ? this.handleErrorQuietly : this.handleError)
-	  	);
+	  	).toPromise();
 	}
 
-	private executeDeleteRequest(request: string, suppressErrors: boolean = false): Observable<any> {
+	private executeDeleteRequest(request: string, suppressErrors: boolean = false): Promise<any> {
 		const headers = this.headers();
 		return this.http.delete(request, { headers, withCredentials: true }).pipe(
 			catchError(suppressErrors ? this.handleErrorQuietly : this.handleError)
-		)
+		).toPromise();
 	}
 
-	private executePutRequest(request: string, data: any, transform?: (input: any) => any, suppressErrors: boolean = false, errorHandler?: (error: HttpErrorResponse) => any): Observable<any> {
+	private executePutRequest(request: string, data: any, transform?: (input: any) => any, suppressErrors: boolean = false, errorHandler?: (error: HttpErrorResponse) => any): Promise<any> {
 		const headers = this.headers();
 		return this.http.put(request, data, { headers, withCredentials: true }).pipe(
 			map((result: any) => 
 					transform ?  transform(result) : result
 			),
 			catchError(suppressErrors ? this.handleErrorQuietly : (errorHandler || this.handleError))
-		)
+		).toPromise();
 	}
 
-	private executePostRequest(request: string, data: any, transform?: (input: any) => any, suppressErrors?: boolean): Observable<any> {
+	private executePostRequest(request: string, data: any, transform?: (input: any) => any, suppressErrors?: boolean): Promise<any> {
 		const headers = this.headers();
 		return this.http.post(request, data, { headers, withCredentials: true } ).pipe(
 			map((result: any) => 
 				transform ?  transform(result) : result
 			),
 			catchError(suppressErrors ? this.handleErrorQuietly : this.handleError)
-		)
+		).toPromise();
 	}
 
 
@@ -98,15 +103,7 @@ export class HttpService {
 	}
 
 	private handleErrorQuietly(error: HttpErrorResponse) {
-		//Error is not an unauthenticated response from Cognito
-		if(error.status !== 400) {
-			//window.alert("There was an error interacting with the server or your session timed out. Click below to reauthenticate");
-		}
-
 		trace(error);
-
-		//window.localStorage.clear();
-		//window.location.href = `${environment.cognito.url}?client_id=${environment.cognito.clientId}&response_type=token&scope=email+openid+phone+profile+aws.cognito.signin.user.admin&redirect_uri=` + window.encodeURIComponent(window.location.origin) + "/sso/index.html";
 		return of(null);
 	}
 

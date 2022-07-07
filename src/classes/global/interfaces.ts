@@ -13,3 +13,10 @@ export interface IValidator {
 export interface IDownloadable {
 	download: () => void
 }
+
+export interface IUser {
+	id?: string,
+	firstName: string,
+	lastName: string,
+	email: string
+}
