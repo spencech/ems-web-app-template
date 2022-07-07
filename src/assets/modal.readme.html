@@ -1,0 +1,117 @@
+<title>EMS Modal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style> body { font-family: 'Open Sans', sans-serif; background: #111; color:  white; padding: 1rem } h2,h3, a, a:visited { color: #0cf; } 
+body::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar
+{
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb
+{
+    background-color: #027DFA;
+    border-radius: 4px;
+}
+
+scrollbar-color: #027DFA white;
+
+</style>
+<h1 id="ems-web-application-components-modal">EMS Web Application Components: Modal</h1>
+<p>The Modal Angular.io module is authored for use within web applications developed by <a href="https://educationalmediasolutions.com">Educational Media Solutions</a>.</p>
+<p>The embedded component and service expose an interface for rendering a modal overlay and content window. This component also implements keybord trapping and focus management to meet accessibility requirements.</p>
+<p><strong>Note that this component is typically used as a singleton</strong>, defined once and rendered at the top-most component level.</p>
+<p>Also note that styling options are limited, and will need to be customized in your CSS files to meet the needs of your implementation.</p>
+<p>This library was generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 13.2.0.</p>
+<h2 id="usage">Usage</h2>
+<p>Module Implementation</p>
+<pre><code><span class="hljs-keyword">import</span> { NgModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { BrowserModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/platform-browser'</span>;
+
+<span class="hljs-keyword">import</span> { AppComponent } <span class="hljs-keyword">from</span> <span class="hljs-string">'./app.component'</span>;
+<span class="hljs-keyword">import</span> { ModalModule, ModalService } <span class="hljs-keyword">from</span> <span class="hljs-string">"ems-web-app-modal"</span>;
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    ModalModule
+  ],
+  providers: [ ModalService ],
+  bootstrap: [ AppComponent ]
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppModule</span> { }</span>
+</code></pre><p>Example placement of &lt;modal/&gt; node in DOM:</p>
+<pre><code><span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">app</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">some-app-component</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-blur"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">some-app-component</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">some-other-component</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-blur"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">some-other-component</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modal</span> [<span class="hljs-attr">transition-speed</span>]=<span class="hljs-string">"250"</span> [<span class="hljs-attr">z-index</span>]=<span class="hljs-string">"99"</span> <span class="hljs-attr">background</span>=<span class="hljs-string">"rgba(255,255,0,0.25)"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">modal</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</code></pre><p>Template attributes with defaults:</p>
+<pre><code>"<span class="hljs-attribute">transition</span>-speed": number = <span class="hljs-number">1000</span>; <span class="hljs-comment">// speed of fade in / fade out</span>
+"<span class="hljs-attribute">background</span>": string = <span class="hljs-string">"rgba(255,255,255,0.25)"</span>; <span class="hljs-comment">//modal background</span>
+"<span class="hljs-attribute">z-index</span>": number = <span class="hljs-number">10000</span>;
+</code></pre><p>Note the usage of the &quot;modal-blur&quot; class above. The Modal component adds a blur filter to any elements with this class. </p>
+<p>Example request to render modal from another component:</p>
+<pre><code><span class="hljs-keyword">import</span> { Component, ViewChild, TemplateRef  } from <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { ModalData, ModalService } from <span class="hljs-string">"ems-web-app-modal"</span>;
+<span class="hljs-meta">@Component({
+  selector: <span class="hljs-meta-string">'some-app-component'</span>,
+  templateUrl: <span class="hljs-meta-string">'./app.component.html'</span>,
+  styleUrls: [<span class="hljs-meta-string">'./app.component.less'</span>]
+})</span>
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SomeAppComponent</span> </span>{
+    <span class="hljs-meta">@ViewChild(<span class="hljs-meta-string">"modalTest"</span>)</span> modalTemplate!: TemplateRef&lt;any&gt;;
+    <span class="hljs-keyword">public</span> title: string = <span class="hljs-string">"modal title"</span>;
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-keyword">private</span> modal: ModalService) {}
+    showModal() {
+        const <span class="hljs-keyword">data</span> = new ModalData();
+        <span class="hljs-keyword">data</span>.preventClickToDismiss = <span class="hljs-literal">true</span>; <span class="hljs-comment">//defaults to false -- controls whether user can click outside of the modal context box to dismiss the view</span>
+        <span class="hljs-keyword">data</span>.initialized = (element: HTMLElement, <span class="hljs-keyword">data</span>: ModalData) =&gt; console.log(element); <span class="hljs-comment">//optional callback after modal has been rendered</span>
+        <span class="hljs-keyword">data</span>.template = <span class="hljs-keyword">this</span>.modalTemplate;
+        <span class="hljs-keyword">data</span>.cancel = <span class="hljs-keyword">this</span>.closeModal; <span class="hljs-comment">//required invoked if user types ESC key or clicks outside content box to hide modal</span>
+        <span class="hljs-keyword">this</span>.modal.setCurrentModal(<span class="hljs-keyword">data</span>);
+    }
+    closeModal = () =&gt; {
+        <span class="hljs-keyword">this</span>.modal.setCurrentModal(<span class="hljs-literal">null</span>);
+    }
+}
+</code></pre><p>Example template for the calling component:</p>
+<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"control-buttons"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"showModal()"</span> [<span class="hljs-attr">ngStyle</span>]=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{'z-index': 10000, position: 'relative'}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span>Show Modal<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"content-panel"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Curabitur blandit tempus porttitor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo. Donec sed odio dui. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ng-template</span> #<span class="hljs-attr">modalTest</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>#1: Hello from the modal template </span><span class="hljs-template-variable">{{ title }</span><span class="xml">}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"buttons"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"button"</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"closeModal()"</span>&gt;</span>Close<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ng-template</span>&gt;</span></span>
+</code></pre><p>Note that modals can be &quot;stacked&quot;... if you call setCurrentModal multiple times. Each subsequent modal closure removes the most recently added modal from the stack.</p>
+<h2 id="code-scaffolding">Code scaffolding</h2>
+<p>Run <code>ng generate component component-name --project Modal</code> to generate a new component. You can also use <code>ng generate directive|pipe|service|class|guard|interface|enum|module --project Modal</code>.</p>
+<blockquote>
+<p>Note: Don&#39;t forget to add <code>--project Modal</code> or else it will be added to the default project in your <code>angular.json</code> file. </p>
+</blockquote>
+<h2 id="build">Build</h2>
+<p>Run <code>ng build Modal</code> to build the project. The build artifacts will be stored in the <code>dist/</code> directory.</p>
+<h2 id="publishing">Publishing</h2>
+<p>After building your library with <code>ng build Modal</code>, go to the dist folder <code>cd dist/modal</code> and run <code>npm publish</code>.</p>
+<h2 id="running-unit-tests">Running unit tests</h2>
+<p>Run <code>ng test Modal</code> to execute the unit tests via <a href="https://karma-runner.github.io">Karma</a>.</p>
+<h2 id="further-help">Further help</h2>
+<p>To get more help on the Angular CLI use <code>ng help</code> or go check out the <a href="https://angular.io/cli">Angular CLI Overview and Command Reference</a> page.</p>

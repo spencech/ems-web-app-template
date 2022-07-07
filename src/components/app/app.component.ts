@@ -3,7 +3,16 @@ import { LoaderService, LoaderType } from "ems-web-app-loader";
 import { PageViewerService } from "ems-web-app-page-viewer";
 import { ModalService, ModalData } from "ems-web-app-modal";
 import { trace, delay, kebab } from "ems-web-app-utils";
-import { Page } from "../../classes";
+import { Page, SanitizerType } from "../../classes";
+import { AppService, HttpService, ContentService } from "../../services";
+
+enum DocType {
+  Loader = "/assets/loader.readme.html",
+  Modal = "/assets/modal.readme.html",
+  PageViewer = "/assets/page-viewer.readme.html",
+  SeatTime = "/assets/seat-time.readme.html",
+  Utils ="/assets/utils.readme.html"
+}
 
 @Component({
   selector: 'app-root',
@@ -15,14 +24,20 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild("exampleModalTemplate") template!: TemplateRef<any>;
 
   public initialized: boolean = false;
+  public transitioning: boolean = false;
   public time: number = 0;
   public loaderDuration: number = 1000;
   public loaderSize: number = 200;
   public loading: boolean = false;
   public Page = Page;
+  public SanitizerType = SanitizerType;
+  public DocType = DocType;
   public currentPageClass: string = "";
+  public currentDoc: DocType = DocType.Utils;
+  public requestedDoc: DocType = DocType.Utils;
 
-  constructor(public loader: LoaderService, public viewer: PageViewerService, private modal: ModalService) {
+  constructor(public content: ContentService, public loader: LoaderService, public viewer: PageViewerService, 
+                private app: AppService, private http: HttpService, private modal: ModalService) {
 
   }
 
@@ -33,7 +48,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    delay(this.initialize);
+    delay(() => this.initialize());
   }
 
   onSeatTimeUpdate(time: number) {
@@ -66,12 +81,22 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.modal.setCurrentModal(data);
   }
 
+  changeDoc(requested: DocType) {
+    this.requestedDoc = requested; //allows button state to change immediately
+    this.transitioning = true; //starts fade down
+    delay(() => {
+      this.currentDoc = requested;
+      delay(() => this.transitioning = false);
+    }, 250);
+  }
+
   public onCancelModal = () => {
     this.modal.setCurrentModal(null);
   }
 
-  private initialize = () => {
+  private async initialize() {
     this.loader.show();
+    
     delay(() => {
       this.initialized = true;
       this.viewer.setCurrentPage(Page.Home);

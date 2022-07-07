@@ -1,0 +1,110 @@
+<title>EMS PageViewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style> body { font-family: 'Open Sans', sans-serif; background: #111; color:  white; padding: 1rem } h2,h3, a, a:visited { color: #0cf; } 
+body::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar
+{
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb
+{
+    background-color: #027DFA;
+    border-radius: 4px;
+}
+
+scrollbar-color: #027DFA white;
+
+</style>
+<h1 id="ems-web-application-components-pageviewer">EMS Web Application Components: PageViewer</h1>
+<p>The PageViewer Angular.io module is authored for use within web applications developed by <a href="https://educationalmediasolutions.com">Educational Media Solutions</a>.</p>
+<p>The embedded component and service expose interfaces for rendering dynamic page content and managing browser history.</p>
+<p>You can likely achieve comparable outcomes with angular routing, but we extend this simple implementation to meet custom client requirements for navigation and accessibility.</p>
+<p><strong>Note that this component currently supports only a single implementation per application</strong>, i.e., you can&#39;t have two separate page viewers on a single screen.</p>
+<p>Also note that styling options are limited, and will need to be customized in your CSS files to meet the needs of your implementation.</p>
+<p>This library was generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 13.2.0.</p>
+<p><strong>Note that this module has a peer dependency on ems-web-app-utils and underscore.js</strong></p>
+<pre><code>npm i underscore ems-web-<span class="hljs-keyword">app</span>-utils ems-web-<span class="hljs-keyword">app</span>-page-viewer
+</code></pre><h2 id="module-implementation">Module Implementation</h2>
+<pre><code><span class="hljs-keyword">import</span> { NgModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { BrowserModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/platform-browser'</span>;
+<span class="hljs-keyword">import</span> { CommonModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/common'</span>;  
+
+<span class="hljs-keyword">import</span> { AppComponent } <span class="hljs-keyword">from</span> <span class="hljs-string">'./app.component'</span>;
+<span class="hljs-keyword">import</span> { PageViewerModule, PageViewerService } <span class="hljs-keyword">from</span> <span class="hljs-string">"ems-web-app-page-viewer"</span>;
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    CommonModule,
+    PageViewerModule
+  ],
+  providers: [ PageViewerService],
+  bootstrap: [ AppComponent ]
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppModule</span> { }</span>
+</code></pre><h2 id="component-implementation">Component Implementation</h2>
+<pre><code><span class="hljs-keyword">import</span> { Component } from <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { PageViewerService } from <span class="hljs-string">"ems-web-app-page-viewer"</span>;
+
+<span class="hljs-meta">@Component({
+  selector: <span class="hljs-meta-string">'app-root'</span>,
+  templateUrl: <span class="hljs-meta-string">'./app.component.html'</span>,
+  styleUrls: [<span class="hljs-meta-string">'./app.component.less'</span>]
+})</span>
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppComponent</span>  </span>{
+  <span class="hljs-keyword">public</span> title: string = <span class="hljs-string">"Example Title"</span>;
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-keyword">private</span> viewer: PageViewerService) {}
+  showPage1() {
+     <span class="hljs-keyword">this</span>.viewer.setCurrentPage(<span class="hljs-string">"page-1"</span>);
+  }
+  showPage2() {
+     <span class="hljs-keyword">this</span>.viewer.setCurrentPage(<span class="hljs-string">"page-2"</span>);
+  }
+}
+</code></pre><h2 id="template-implementation">Template Implementation</h2>
+<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"control-buttons"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"showPage1()"</span>&gt;</span>Show Page 1<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"showPage2()"</span>&gt;</span>Show Page 2<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">page-viewer</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"content-panel"</span> [<span class="hljs-attr">history</span>]=<span class="hljs-string">"true"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">page-template</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"page-1"</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"Page 1"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">app-page1</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">app-page1</span>&gt;</span> <span class="hljs-comment">&lt;!-- custom component --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">page-template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">page-template</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"page-2"</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- static html --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Page 2 </span><span class="hljs-template-variable">{{ title }}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Etiam porta sem malesuada magna mollis euismod. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Etiam porta sem malesuada magna mollis euismod.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">page-template</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">page-viewer</span>&gt;</span></span>
+</code></pre><p>Under the hood, the &quot;page-template&quot; component converts nested content to an ng-template, that is registered with the PageViewerService and rendered by the PagerViewerComponent.</p>
+<p><strong>Every &lt;page-template/&gt; node must define an &quot;id&quot; attribute</strong></p>
+<p>The optional &quot;history&quot; attribute on the page-viewer element enables browser history tracking when set to true. The default is boolean &quot;false&quot;.</p>
+<h2 id="code-scaffolding">Code scaffolding</h2>
+<p>Run <code>ng generate component component-name --project PageViewer</code> to generate a new component. You can also use <code>ng generate directive|pipe|service|class|guard|interface|enum|module --project PageViewer</code>.</p>
+<blockquote>
+<p>Note: Don&#39;t forget to add <code>--project PageViewer</code> or else it will be added to the default project in your <code>angular.json</code> file. </p>
+</blockquote>
+<h2 id="build">Build</h2>
+<p>Run <code>ng build PageViewer</code> to build the project. The build artifacts will be stored in the <code>dist/</code> directory.</p>
+<h2 id="publishing">Publishing</h2>
+<p>After building your library with <code>ng build PageViewer</code>, go to the dist folder <code>cd dist/page-viewer</code> and run <code>npm publish</code>.</p>
+<h2 id="running-unit-tests">Running unit tests</h2>
+<p>Run <code>ng test PageViewer</code> to execute the unit tests via <a href="https://karma-runner.github.io">Karma</a>.</p>
+<h2 id="further-help">Further help</h2>
+<p>To get more help on the Angular CLI use <code>ng help</code> or go check out the <a href="https://angular.io/cli">Angular CLI Overview and Command Reference</a> page.</p>

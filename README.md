@@ -1,6 +1,11 @@
-# WebAppTemplate
+# EMS Web Application Components: Modal
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
+This is a foundational template for web applications developed by [Educational Media Solutions](https://educationalmediasolutions.com).
+
+## Usage
+
+	npm i 
+	ng serve
 
 ## Development server
 

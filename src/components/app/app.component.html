@@ -1,5 +1,5 @@
 <header class="header modal-blur">
-  <h1 class="h1">Educational Media Solutions Web Application Template</h1>
+  <h1 class="h1" [innerHtml]="content.title"></h1>
 </header>
 <div class="controls modal-blur">
   <p class="p time-tracker">Seat Time: {{ time }} seconds</p>
@@ -14,12 +14,19 @@
     <p class="p">This foundation is preloaded with a few of the frequently used components across all of our applications, including the aforementioned page viewer, loader animations, modal displays and engagement time tracking.</p>
     <p class="p">Also included are a set of LESS mixins for form elements and basic effects, and a library of utility functions that have been used frequently in our work.</p>
     <div class="buttons">
-      <button (click)="viewer.setCurrentPage(Page.About)" class="button std">Utility Methods</button>
+      <button (click)="viewer.setCurrentPage(Page.About)" class="button std">Component Documentation</button>
     </div>
   </page-template>
   <page-template [id]="Page.About" title="About">
-    <h2 class="h2 wide"><a href="javascript:void(0)" (click)="viewer.setCurrentPage(Page.Home)">&larr;</a> EMS Utility Methods</h2>
-    <iframe class="wide" src="/assets/utils.readme.html"></iframe>
+    <h2 class="h2 wide"><a href="javascript:void(0)" (click)="viewer.setCurrentPage(Page.Home)">&larr;</a> EMS Component Documentation</h2>
+    <div class="controls">
+      <button class="button std" [disabled]="currentDoc === DocType.Utils" (click)="changeDoc(DocType.Utils)">EMS Utility Methods</button>
+      <button class="button std" [disabled]="currentDoc === DocType.Loader" (click)="changeDoc(DocType.Loader)">Loader Animation</button>
+      <button class="button std" [disabled]="currentDoc === DocType.Modal" (click)="changeDoc(DocType.Modal)">Modal Window</button>
+      <button class="button std" [disabled]="currentDoc === DocType.PageViewer" (click)="changeDoc(DocType.PageViewer)">Page Viewer</button>
+      <button class="button std" [disabled]="currentDoc === DocType.SeatTime" (click)="changeDoc(DocType.SeatTime)">Seat Time Tracker</button>
+    </div>
+    <iframe class="wide" [class.transitioning]="transitioning" [src]="currentDoc|safe:SanitizerType.ResourceUrl"></iframe>
   </page-template>
 </page-viewer>
 
