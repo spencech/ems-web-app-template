@@ -2,6 +2,8 @@
 
 This is a foundational template for web applications developed by [Educational Media Solutions](https://educationalmediasolutions.com).
 
+The template in its default/unextended state can be viewed here: [EMS Web Application Template](https://ems-web-app.educationalmediasolutions.com).
+
 ## Usage
 
 	npm i 
