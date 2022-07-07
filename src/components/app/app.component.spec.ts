@@ -1,7 +1,7 @@
 import { TestBed, async, tick, fakeAsync, inject, flush } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AppComponent } from './app.component';
-import { AppService, HttpService } from "../../services";
+import { AppService, HttpService, ContentService } from "../../services";
 import { ModalModule, ModalService } from "ems-web-app-modal";
 import { PageViewerModule, PageViewerService } from "ems-web-app-page-viewer";
 import { LoaderModule, LoaderService } from "ems-web-app-loader";
@@ -19,7 +19,7 @@ describe('AppComponent', () => {
         SeatTimeModule,
         PipesModule
       ],
-      providers: [AppService, HttpService, ModalService, PageViewerService, LoaderService],
+      providers: [AppService, HttpService, ContentService, ModalService, PageViewerService, LoaderService],
       declarations: [
         AppComponent,
       ],
