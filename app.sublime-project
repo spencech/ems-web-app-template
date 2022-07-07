@@ -1,0 +1,14 @@
+{
+	"folders":
+	[
+		{
+			"name": "Configuration",
+			"path": ".",
+			"folder_exclude_patterns": ["node_modules", "src"]
+		},
+		{
+			"name": "Web Application",
+			"path": "./src"
+		}
+	]
+}
