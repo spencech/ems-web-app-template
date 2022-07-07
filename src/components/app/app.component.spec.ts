@@ -1,14 +1,15 @@
-import { TestBed, async, tick, fakeAsync, inject, flush } from '@angular/core/testing';
+import { TestBed, async, tick, fakeAsync, inject, flush, discardPeriodicTasks } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AppComponent } from './app.component';
 import { AppService, HttpService, ContentService } from "../../services";
-import { ModalModule, ModalService } from "ems-web-app-modal";
+import { ModalModule, ModalService, ModalData } from "ems-web-app-modal";
 import { PageViewerModule, PageViewerService } from "ems-web-app-page-viewer";
 import { LoaderModule, LoaderService } from "ems-web-app-loader";
 import { SeatTimeModule } from "ems-web-app-seat-time";
 import { PipesModule } from "ems-web-app-pipes";
 
 describe('AppComponent', () => {
+  let modalService: ModalService, loaderService: LoaderService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -24,6 +25,9 @@ describe('AppComponent', () => {
         AppComponent,
       ],
     }).compileComponents();
+
+     modalService = TestBed.inject(ModalService);
+     loaderService = TestBed.inject(LoaderService);
   });
 
   it('should create the app', () => {
@@ -32,16 +36,58 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  /*it(`should have as title 'web-app-template'`, () => {
+  it('should render the loader animation', fakeAsync(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('web-app-template');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    loaderService.show();
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('web-app-template app is running!');
-  });*/
+    tick(500);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector("loader").classList.contains("showLoader")).toBeTruthy()
+    discardPeriodicTasks()
+  }));
+
+  it('should hide the loader animation once rendered and a hide request is made', fakeAsync(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    loaderService.show();
+    fixture.detectChanges();
+    tick(500);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector("loader").classList.contains("showLoader")).toBeTruthy()
+    loaderService.hide();
+    fixture.detectChanges();
+    tick(1200);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector("loader").classList.contains("showLoader")).toBeFalsy();
+  }));
+
+  it('should render a modal window when requested', fakeAsync(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    const data = new ModalData();
+    modalService.setCurrentModal(data);
+    fixture.detectChanges();
+    tick(500);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector("modal").classList.contains("render")).toBeTruthy()
+    discardPeriodicTasks()
+  }));
+
+  it('should hide a modal window once rendered and a close request is made', fakeAsync(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    const data = new ModalData();
+    modalService.setCurrentModal(data);
+    fixture.detectChanges();
+    tick(500);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector("modal").classList.contains("render")).toBeTruthy();
+    modalService.setCurrentModal(null);
+    fixture.detectChanges();
+    tick(1200);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector("modal").classList.contains("render")).toBeFalsy();
+  }));
+ 
 });
