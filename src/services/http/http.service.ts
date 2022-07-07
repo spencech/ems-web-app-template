@@ -52,6 +52,7 @@ export class HttpService {
 	} 
 
 	public getUser(): Promise<User> {
+		// TEMPORARY
 		const request = `/assets/user.stump.json`;
 		return this.executeGetRequest(request, User.generateUser);
 	}
