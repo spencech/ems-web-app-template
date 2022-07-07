@@ -1,4 +1,4 @@
-# EMS Web Application Components: Modal
+# EMS Web Application Template
 
 This is a foundational template for web applications developed by [Educational Media Solutions](https://educationalmediasolutions.com).
 
