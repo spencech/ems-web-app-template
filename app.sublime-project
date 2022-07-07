@@ -4,11 +4,15 @@
 		{
 			"name": "Configuration",
 			"path": ".",
-			"folder_exclude_patterns": ["node_modules", "src"]
+			"folder_exclude_patterns": ["node_modules", "src"],
 		},
 		{
 			"name": "Web Application",
-			"path": "./src"
-		}
-	]
+			"path": "src",
+		},
+		{
+			"name": "Linked Modules",
+			"path": "/Users/spencech/EMS/Projects/npm/web-app/projects"
+		},
+	],
 }
