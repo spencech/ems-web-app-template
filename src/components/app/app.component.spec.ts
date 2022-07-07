@@ -7,6 +7,7 @@ import { PageViewerModule, PageViewerService } from "ems-web-app-page-viewer";
 import { LoaderModule, LoaderService } from "ems-web-app-loader";
 import { SeatTimeModule } from "ems-web-app-seat-time";
 import { PipesModule } from "ems-web-app-pipes";
+import { Page } from "../../classes";
 
 describe('AppComponent', () => {
   let modalService: ModalService, loaderService: LoaderService, viewerService: PageViewerService;
@@ -96,13 +97,24 @@ describe('AppComponent', () => {
   it('should render a page template when requested', fakeAsync(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    viewerService.setCurrentPage("home");
+    viewerService.setCurrentPage(Page.Home);
     fixture.detectChanges();
     tick(500);
     fixture.detectChanges();
     const viewer = fixture.nativeElement.querySelector("page-viewer")
-    expect(viewer.classList.contains("home")).toBeTruthy();
     expect(viewer.children.length).toBeGreaterThan(0);
+    discardPeriodicTasks()
+  }));
+
+  it('should render a page with a classname that corresponds to its enum when requested', fakeAsync(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    viewerService.setCurrentPage(Page.Home);
+    fixture.detectChanges();
+    tick(500);
+    fixture.detectChanges();
+    const viewer = fixture.nativeElement.querySelector("page-viewer")
+    expect(viewer.classList.contains(Page.Home)).toBeTruthy();
     discardPeriodicTasks()
   }));
 
