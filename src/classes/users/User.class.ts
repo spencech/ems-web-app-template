@@ -61,14 +61,15 @@ export class User implements IUser, IClonable, IValidator, IExportable {
 		return new User(this.export());
 	}
 
-	validate(): boolean | string {
+	validate(): boolean | string[] {
 		const errors = [];
 		if(empty(this.email)) errors.push("Missing Email");
 		else if(!validateEmail(this.email)) errors.push("Invalid Email");
 		if(empty(this.firstName)) errors.push("Missing First Name");
 		if(empty(this.lastName)) errors.push("Missing Last Name");
-		return empty(errors) ? true : errors.join(",");
+		return empty(errors) ? true : errors;
 	}
+	
 	export(): IUser {
 		return {
 			id: this.id,

@@ -7,7 +7,7 @@ export interface IClonable {
 }
 
 export interface IValidator {
-	validate: () => boolean | string
+	validate: () => boolean | string[]
 }
 
 export interface IDownloadable {
