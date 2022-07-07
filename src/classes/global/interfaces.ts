@@ -20,3 +20,11 @@ export interface IUser {
 	lastName: string,
 	email: string
 }
+
+
+
+//used for validating object conformance in tests
+//conversion regex: ^(?:\s+)?(.*?):.*?$\n? => "$1",
+export class Interfaces {
+	public static readonly IUser: string[] = ["id?","firstName","lastName","email"];
+}
