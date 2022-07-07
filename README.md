@@ -12,7 +12,7 @@ The template in its default/unextended state can be viewed here: [EMS Web Applic
 
 ## Usage: Production
 
-	mv src/html/index.prod.example src/html/index.prod.html
+	cp src/html/index.prod.example src/html/index.prod.html
 	ng build
 
 The "index.prod.html" file can include analytics and other production only content. Note that this file is git-ignored.
