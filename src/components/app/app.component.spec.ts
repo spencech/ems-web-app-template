@@ -60,6 +60,7 @@ describe('AppComponent', () => {
     tick(1200);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector("loader").classList.contains("showLoader")).toBeFalsy();
+    discardPeriodicTasks()
   }));
 
   it('should render a modal window when requested', fakeAsync(() => {
@@ -88,6 +89,7 @@ describe('AppComponent', () => {
     tick(1200);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector("modal").classList.contains("render")).toBeFalsy();
+    discardPeriodicTasks()
   }));
- 
+
 });
