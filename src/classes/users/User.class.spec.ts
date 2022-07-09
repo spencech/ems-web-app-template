@@ -117,7 +117,7 @@ describe('User.class', () => {
 		});
 	});
 
-	it("should not impact the source user when a cloned user is modified", () => {
+	it("should preserve the properties of the source user when a cloned user is modified", () => {
 		const clone = validUser.clone();
 		clone.email = "tester-2@test.com";
 		expect(clone.email).not.toBe(validUser.email);

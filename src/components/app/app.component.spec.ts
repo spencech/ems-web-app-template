@@ -5,7 +5,7 @@ import { AppService, HttpService, ContentService } from "../../services";
 import { ModalModule, ModalService, ModalData } from "ems-web-app-modal";
 import { PageViewerModule, PageViewerService } from "ems-web-app-page-viewer";
 import { LoaderModule, LoaderService } from "ems-web-app-loader";
-import { SeatTimeModule } from "ems-web-app-seat-time";
+import { SeatTimeModule, SeatTimeComponent } from "ems-web-app-seat-time";
 import { PipesModule } from "ems-web-app-pipes";
 import { Page } from "../../classes";
 

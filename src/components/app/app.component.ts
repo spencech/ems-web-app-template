@@ -4,6 +4,7 @@ import { PageViewerService } from "ems-web-app-page-viewer";
 import { ModalService, ModalData } from "ems-web-app-modal";
 import { trace, delay, kebab } from "ems-web-app-utils";
 import { SanitizerType } from "ems-web-app-pipes";
+import { BreakpointService, Breakpoint, BreakpointValue, BreakpointType } from "ems-web-app-breakpoint-detection";
 import { Page, User } from "../../classes";
 import { AppService, HttpService, ContentService } from "../../services";
 
@@ -40,7 +41,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   public currentUser?: User;
 
   constructor(public content: ContentService, public loader: LoaderService, public viewer: PageViewerService, 
-                private app: AppService, private http: HttpService, private modal: ModalService) {
+                private app: AppService, private http: HttpService, private modal: ModalService,
+                private breakpoint: BreakpointService) {
 
   }
 
@@ -53,7 +55,11 @@ export class AppComponent implements OnInit, AfterViewInit {
       if(!user) return;
       this.currentUser = user;
       trace("current user loaded", user);
-    })
+    });
+
+    this.breakpoint.currentBreakpoint.subscribe(breakpoint => {
+      trace(`current breakpoint type: ${breakpoint?.type}`, `current breakpoint value: ${breakpoint?.value}`);
+    });
   }
 
   ngAfterViewInit() {

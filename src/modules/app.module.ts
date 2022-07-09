@@ -8,6 +8,7 @@ import { PageViewerModule, PageViewerService } from "ems-web-app-page-viewer";
 import { LoaderModule, LoaderService } from "ems-web-app-loader";
 import { SeatTimeModule } from "ems-web-app-seat-time";
 import { PipesModule } from "ems-web-app-pipes";
+import { BreakpointModule, BreakpointService } from "ems-web-app-breakpoint-detection"
 
 import { AppComponent } from '../components';
 import { AppService, HttpService, ContentService } from "../services";
@@ -26,9 +27,10 @@ import { AppService, HttpService, ContentService } from "../services";
     LoaderModule,
     PageViewerModule,
     SeatTimeModule,
-    PipesModule
+    PipesModule,
+    BreakpointModule
   ],
-  providers: [ ModalService, LoaderService, PageViewerService, AppService, HttpService, ContentService ],
+  providers: [ ModalService, LoaderService, PageViewerService, AppService, HttpService, ContentService, BreakpointService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
