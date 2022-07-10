@@ -5,6 +5,7 @@ import { ModalService, ModalData } from "ems-web-app-modal";
 import { trace, delay, kebab } from "ems-web-app-utils";
 import { SanitizerType } from "ems-web-app-pipes";
 import { BreakpointService, Breakpoint, BreakpointValue, BreakpointType } from "ems-web-app-breakpoint-detection";
+import { MessagesService, MessageType, MessagePosition } from "ems-web-app-messages";
 import { Page, User } from "../../classes";
 import { AppService, HttpService, ContentService } from "../../services";
 
@@ -42,7 +43,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   constructor(public content: ContentService, public loader: LoaderService, public viewer: PageViewerService, 
                 private app: AppService, private http: HttpService, private modal: ModalService,
-                private breakpoint: BreakpointService) {
+                private breakpoint: BreakpointService, private messages: MessagesService) {
 
   }
 
@@ -68,6 +69,24 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   onSeatTimeUpdate(time: number) {
     this.time = time;
+  }
+
+  showMessage() {
+    this.messages.setCurrentMessage({
+      type: MessageType.Growl,
+      position: MessagePosition.TopRight,
+      message: "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      duration: 5
+    });
+  }
+
+  showSnackbarMessage() {
+    this.messages.setCurrentMessage({
+      type: MessageType.Snackbar,
+      position: MessagePosition.TopCenter,
+      message: "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      duration: 5
+    });
   }
 
   showSpinner() {

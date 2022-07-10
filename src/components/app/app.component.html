@@ -4,11 +4,13 @@ You may want to preserve the page-viewer, modal, loader and tracker elements bec
 <header class="header modal-blur">
   <h1 class="h1" [innerHtml]="content.title"></h1>
 </header>
-<div class="controls modal-blur grid-60 default-15">
-  <p class="p time-tracker cell">Seat Time: {{ time }} seconds</p>
+<div class="controls modal-blur grid-60 default-12">
   <span class="cell"><button class="button std" (click)="launchSampleModal()" [disabled]="!initialized">Show Modal Window</button></span>
   <span class="cell"><button class="button std" (click)="loading ? hideLoader() : showSpinner()" [disabled]="!initialized">{{ loading ? 'Hide Current' : 'Show Spinner'}} Loader</button></span>
   <span class="cell"><button class="button std" (click)="loading ? hideLoader() : showEllipsis()" [disabled]="!initialized">{{ loading ? 'Hide Current' : 'Show Ellipsis'}} Loader</button></span>
+  <span class="cell"><button class="button std" (click)="showMessage()" [disabled]="!initialized">Show Growl Message</button></span>
+  <span class="cell"><button class="button std" (click)="showSnackbarMessage()" [disabled]="!initialized">Show Snackbar Message</button></span>
+  <p class="p time-tracker cell span-60">Seat Time: {{ time }} seconds</p>
 </div>
 <page-viewer class="content-panel modal-blur" [ngClass]="currentPageClass" [history]="false">
   <page-template [id]="Page.Home" title="Home">
@@ -47,7 +49,7 @@ You may want to preserve the page-viewer, modal, loader and tracker elements bec
     <button class="button std" (click)="onCancelModal()">Close</button>
   </div>
 </ng-template>
-
+<messages [z-index]="12000"></messages>
 <modal class="modal" [transition-speed]="250" [z-index]="10001" background="rgba(255,255,255,0.25)"></modal>
 <loader [transition-speed]="250" [animation-duration]="loaderDuration" [z-index]="10000" [size]="loaderSize" color="#0099ff" background="rgba(255,255,255,.25)" ></loader>
 <tracker [time]="0" [interval]="1" [timeout]="60" (tick)="onSeatTimeUpdate($event)"></tracker>

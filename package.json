@@ -22,6 +22,7 @@
     "@angular/router": "~13.2.0",
     "ems-web-app-breakpoint-detection": "^0.0.2",
     "ems-web-app-loader": "^0.0.10",
+    "ems-web-app-messages": "^0.0.2",
     "ems-web-app-modal": "^0.0.15",
     "ems-web-app-page-viewer": "^0.0.5",
     "ems-web-app-pipes": "^0.0.3",
