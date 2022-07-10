@@ -25,13 +25,15 @@ You may want to preserve the page-viewer, modal, loader and tracker elements bec
   </page-template>
   <page-template [id]="Page.About" title="About">
     <h2 class="h2 wide"><a href="javascript:void(0)" (click)="viewer.setCurrentPage(Page.Home)">&larr;</a> EMS Component Documentation</h2>
-    <div class="controls grid-60 default-10">
+    <div class="controls grid-60 default-15">
       <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Utils" (click)="changeDoc(DocType.Utils)">EMS Utility Methods</button></span>
       <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Pipes" (click)="changeDoc(DocType.Pipes)">Pipes</button></span>
       <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Loader" (click)="changeDoc(DocType.Loader)">Loader Animation</button></span>
       <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Modal" (click)="changeDoc(DocType.Modal)">Modal Window</button></span>
       <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.PageViewer" (click)="changeDoc(DocType.PageViewer)">Page Viewer</button></span>
       <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.SeatTime" (click)="changeDoc(DocType.SeatTime)">Seat Time Tracker</button></span>
+      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Breakpoint" (click)="changeDoc(DocType.Breakpoint)">Breakpoint</button></span>
+      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Messages" (click)="changeDoc(DocType.Messages)">Messages</button></span>
     </div>
     <iframe class="wide" [class.transitioning]="transitioning" [src]="currentDoc|safe:SanitizerType.ResourceUrl"></iframe> <!-- example safe pipe -->
   </page-template>

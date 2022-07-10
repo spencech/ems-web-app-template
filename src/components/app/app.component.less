@@ -6,7 +6,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	&:extend(.scrollbar);
+	&:extend(.scrollbar all);
 }
 
 .header {
@@ -28,6 +28,11 @@
 	max-width: 60rem;
 }
 
+:host > .controls > .cell > button:not(:disabled) {
+	background: @pink;
+	border-color: @pink;
+}
+
 .grid-60 .time-tracker.cell {
 	font-weight: 600;
 	box-sizing: border-box;
@@ -38,8 +43,9 @@
 }
 
 .content-panel {
-	padding: 0 2rem 2rem 2rem;
+	padding: 2rem;
 	box-sizing: border-box;
+	border-top: solid 1px @primary-light;
 }
 
 .content-panel .h2,
@@ -83,11 +89,6 @@
 
 .content-panel .buttons {
 	text-align: center;
-}
-
-.content-panel.about {
-	display: flex;
-	flex-direction: column;
 }
 
 :host::ng-deep .modal .modal-content {

@@ -2,7 +2,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<style> body { font-family: 'Open Sans', sans-serif; background: #111; color:  white; padding: 1rem } h3, a, a:visited { color: #0cf; } 
+<style> body { font-family: 'Open Sans', sans-serif; background: #111; color:  white; padding: 1rem } h1,h2,h3, a, a:visited { color: #0cf; } 
 body::-webkit-scrollbar-track
 {
     -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
@@ -52,7 +52,7 @@ import { PipesModule } from &quot;ems-web-app-pipes&quot;;
 export class AppModule { }
 </code></pre>
 <h2 id="usage-safe">Usage: Safe</h2>
-<p>The SafePipe sanitizes template strings using Angular.io&#39;s Dom Sanitizer.</p>
+<p>The SafePipe bypasses sanitization for trusted template strings using Angular.io&#39;s Dom Sanitizer.</p>
 <p><strong>Component Implementation</strong></p>
 <pre><code>import { Component } from &#39;@angular/core&#39;;
 import { SanitizerType } from &quot;ems-web-app-pipes&quot;;

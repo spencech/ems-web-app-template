@@ -1,0 +1,137 @@
+<title>EMS Web Application Components: Breakpoint Change Detection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style> body { font-family: 'Open Sans', sans-serif; background: #111; color:  white; padding: 1rem } h1,h2,h3, a, a:visited { color: #0cf; } 
+body::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar
+{
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb
+{
+    background-color: #027DFA;
+    border-radius: 4px;
+}
+
+scrollbar-color: #027DFA white;
+
+</style>
+<h1 id="ems-web-application-components-breakpoint-change-detection">EMS Web Application Components: Breakpoint Change Detection</h1>
+<p>The Breakpoint Change Detection Angular.io module is authored for use within web applications developed by <a href="https://educationalmediasolutions.com">Educational Media Solutions</a>.</p>
+<p>Find the <a href="https://github.com/spencech/ems-web-app-template">web application template source code on GitHub</a> to review implementation in context.</p>
+<p>Find a <a href="https://ems-web-app.educationalmediasolutions.com">working example of this component here</a>.</p>
+<p>This package includes a component and service that can be used to define and listen for breakpoint events (i.e., when a user resizes their window/view portal across one or more thresholds). </p>
+<p><strong>Note:</strong> The service observable fires <strong>only</strong> on breakpoint change, not on every viewport resize event.</p>
+<p><strong>This isn&#39;t my favorite component.</strong> Anything display related should be handled via CSS. However, there are some form-factor/viewport-size specific functional changes required by clients from time to time, and this detection mechanism can be helpful in those cases.</p>
+<p>This library was generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 13.2.0.</p>
+<h2 id="usage-module-import">Usage: Module Import</h2>
+<pre><code>import { NgModule } from &#39;@angular/core&#39;;
+import { BrowserModule } from &#39;@angular/platform-browser&#39;;
+import { AppComponent } from &#39;./app.component&#39;;
+import { BreakpointModule, BreakpointService } from &quot;ems-web-app-breakpoint-detection&quot;;
+
+@NgModule({
+  declarations: [
+    AppComponent 
+  ],
+  imports: [
+    BrowserModule,
+    BreakpointModule 
+  ],
+  providers: [ BreakpointService ],
+  bootstrap: [ AppComponent ]
+})
+export class AppModule { }
+</code></pre>
+<h2 id="usage-template-implementation">Usage: Template Implementation</h2>
+<pre><code>&lt;breakpoint [breakpoints]=&quot;{ xs: 0, sm: 544, md: 768, lg: 992, xl: 1200 }&quot;&gt;&lt;/breakpoint&gt;
+</code></pre>
+<p>The breakpoints input is shown in its default configuration here. You can use whatever conventions you like for defining key/value pairs on the input.</p>
+<p>E.g., </p>
+<pre><code>&lt;breakpoint [breakpoints]=&quot;{ mySmallestBp: 0, myMediumBp: 800, myLargestBp: 1600 }&quot;&gt;&lt;/breakpoint&gt;
+</code></pre>
+<p>Numeric values correspond to pixels. The default inputs correspond fairly well to phone portrait, phone landscape, tablet portrait, tablet landscape and desktop pixel widths. (Though some of the larger, wider phones get caught as &quot;md&quot; in portrait mode).</p>
+<p>** Component Implementation **</p>
+<h2 id="usage-component-implementation">Usage: Component Implementation</h2>
+<pre><code>import { Component, OnInit } from &#39;@angular/core&#39;;
+import { BreakpointService, Breakpoint } from &quot;ems-web-app-breakpoint-detection&quot;;
+
+@Component({
+  selector: &#39;app-root&#39;,
+  templateUrl: &#39;./app.component.html&#39;,
+  styleUrls: [&#39;./app.component.less&#39;]
+})
+export class AppComponent implements OnInit  {
+  constructor(private breakpointService: BreakpointService) { }
+  
+  ngOnInit() {
+    this.breakpointService.currentBreakpoint.subscribe((bp?: Breakpoint) =&gt; {
+      console.log(bp?.type); // e.g., &quot;sm&quot;
+      console.log(bp?.value); // e.g., 544
+    })
+  }
+}
+</code></pre>
+<h2 id="convenience-enums">Convenience Enums</h2>
+<p>For readability, we use convenience enums that correspond to the internal defaults.</p>
+<p><strong>Enum Definition</strong></p>
+<pre><code>enum BreakpointType {
+  PhonePortrait = &quot;xs&quot;,
+  PhoneLandscape = &quot;sm&quot;,
+  TabletPortrait = &quot;md&quot;,
+  TabletLandscape = &quot;lg&quot;,
+  Desktop = &quot;xl&quot;
+}
+
+enum BreakpointValue {
+  PhonePortrait = 0,
+  PhoneLandscape = 544,
+  TabletPortrait = 768,
+  TabletLandscape = 992,
+  Desktop = 1200
+}
+
+
+import { Component, OnInit } from &#39;@angular/core&#39;;
+import { BreakpointService, Breakpoint, BreakpointType, BreakpointValue } from &quot;ems-web-app-breakpoint-detection&quot;;
+
+@Component({
+  selector: &#39;app-root&#39;,
+  templateUrl: &#39;./app.component.html&#39;,
+  styleUrls: [&#39;./app.component.less&#39;]
+})
+export class AppComponent implements OnInit  {
+  constructor(private breakpoint: BreakpointService) { }
+  
+  ngOnInit() {
+    this.breakpoint.currentBreakpoint.subscribe((bp?: Breakpoing) =&gt; {
+      console.log(bp?.value &lt; BreakpointValue.TabletPortrait); // e.g., true
+      console.log(bp?.type === BreakpointType.PhoneLandscape); //e.g., true
+    })
+  }
+}
+</code></pre>
+<h2 id="code-scaffolding">Code scaffolding</h2>
+<p>Run <code>ng generate component component-name --project breakpoint</code> to generate a new component. You can also use <code>ng generate directive|pipe|service|class|guard|interface|enum|module --project breakpoint</code>.</p>
+<blockquote>
+<p>Note: Don&#39;t forget to add <code>--project breakpoint</code> or else it will be added to the default project in your <code>angular.json</code> file. </p>
+</blockquote>
+<h2 id="build">Build</h2>
+<p>Run <code>ng build breakpoint</code> to build the project. The build artifacts will be stored in the <code>dist/</code> directory.</p>
+<h2 id="publishing">Publishing</h2>
+<p>After building your library with <code>ng build breakpoint</code>, go to the dist folder <code>cd dist/breakpoint</code> and run <code>npm publish</code>.</p>
+<h2 id="running-unit-tests">Running unit tests</h2>
+<p>Run <code>ng test breakpoint</code> to execute the unit tests via <a href="https://karma-runner.github.io">Karma</a>.</p>
+<h2 id="further-help">Further help</h2>
+<p>To get more help on the Angular CLI use <code>ng help</code> or go check out the <a href="https://angular.io/cli">Angular CLI Overview and Command Reference</a> page.</p>

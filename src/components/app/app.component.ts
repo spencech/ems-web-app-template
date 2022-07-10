@@ -15,7 +15,9 @@ enum DocType {
   PageViewer = "/assets/page-viewer.readme.html",
   SeatTime = "/assets/seat-time.readme.html",
   Utils ="/assets/utils.readme.html",
-  Pipes = "/assets/pipes.readme.html"
+  Pipes = "/assets/pipes.readme.html",
+  Breakpoint = "/assets/breakpoint.readme.html",
+  Messages = "/assets/messages.readme.html",
 }
 
 @Component({
