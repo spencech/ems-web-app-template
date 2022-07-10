@@ -7,9 +7,6 @@
 	right: 0;
 	bottom: 0;
 	&:extend(.scrollbar);
-
-	display: flex;
-	flex-direction: column;
 }
 
 .header {
@@ -25,24 +22,19 @@
 }
 
 .controls {
+	position: relative;
+	z-index: 10001;
+	margin: 2rem auto;
+	max-width: 60rem;
+}
+
+.grid-60 .time-tracker.cell {
+	font-weight: 600;
+	box-sizing: border-box;
+	text-align: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: relative;
-	z-index: 10001;
-	padding: 2rem;
-	flex-wrap: wrap;
-}
-
-.controls .button {
-	margin-left: 1rem;
-	min-width: 13.75rem;
-	margin-bottom: 1rem;
-}
-
-.time-tracker {
-	font-weight: 600;
-	box-sizing: border-box;
 }
 
 .content-panel {

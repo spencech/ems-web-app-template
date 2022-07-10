@@ -233,3 +233,178 @@
 	  color: @primary-dark;
 	}
 }
+
+
+.grid-60 {
+	display: grid;
+	grid-template-columns: repeat(60, 1fr);
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+
+	.cell {
+		display: block;
+		padding: 0.5rem;
+		box-sizing: border-box;
+		text-align: center;
+		height: 100%;
+
+		& > * {
+			width: 100%;
+			height: 100%;
+			box-sizing: border-box;
+		}
+	}
+
+	.cell.span-10 {
+
+		grid-column: span 60;
+
+		@media @sm-up {
+			grid-column: span 30;
+		}
+		
+		@media @lg-up {
+			grid-column: span 10;
+		}
+		
+	}
+
+	.cell.span-12 {
+		grid-column: span 60;
+
+		@media @sm-up {
+			grid-column: span 30;
+		}
+		
+		@media @lg-up {
+			grid-column: span 12;
+		}
+	}
+
+	.cell.span-15 {
+		grid-column: span 60;
+
+		@media @sm-up {
+			grid-column: span 30;
+		}
+		
+		@media @lg-up {
+			grid-column: span 15;
+		}
+	}
+
+	.cell.span-20 {
+		grid-column: span 60;
+
+		@media @sm-up {
+			grid-column: span 30;
+		}
+		
+		@media @lg-up {
+			grid-column: span 20;
+		}
+	}
+
+	.cell.span-30 {
+		grid-column: span 60;
+
+		@media @sm-up {
+			grid-column: span 30;
+		}
+	}
+
+	.cell.span-60 {
+		grid-column: span 60;
+	}
+
+	&.default-60 {
+		.cell:not([class*="span"]) {
+			grid-column: span 60;
+		}
+	}
+
+	&.default-30 {
+		.cell:not([class*="span"]) {
+			grid-column: span 30;
+		}
+	}
+
+	&.default-20 {
+		.cell:not([class*="span"]) {
+			grid-column: span 60;
+
+			@media @sm-up {
+				grid-column: span 30;
+			}
+
+			@media @lg-up {
+				grid-column: span 20;
+			}
+		}
+
+		.cell.column-break {
+
+			@media @sm-up {
+				grid-column: ~'1/31';
+			}
+
+			@media @lg-up {
+				grid-column: ~'1/21';
+			}
+		}
+	}
+
+	&.default-15 {
+		.cell:not([class*="span"]) {
+			grid-column: span 60;
+
+			@media @sm-up {
+				grid-column: span 30;
+			}
+
+			@media @lg-up {
+				grid-column: span 15;
+			}
+		}
+	}
+
+	&.default-12 {
+		.cell:not([class*="span"]) {
+			grid-column: span 60;
+
+			@media @sm-up {
+				grid-column: span 30;
+			}
+
+			@media @lg-up {
+				grid-column: span 12;
+			}
+		}
+
+		.cell.column-break {
+
+			@media @sm-up {
+				grid-column: ~'1/31';
+			}
+
+			@media @lg-up {
+				grid-column: ~'1/13';
+			}
+		}
+	}
+
+	&.default-10 {
+		.cell:not([class*="span"]) {
+			grid-column: span 60;
+
+			@media @sm-up {
+				grid-column: span 30;
+			}
+
+			@media @lg-up {
+				grid-column: span 10;
+			}
+		}
+	}
+}

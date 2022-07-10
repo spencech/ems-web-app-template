@@ -4,11 +4,11 @@ You may want to preserve the page-viewer, modal, loader and tracker elements bec
 <header class="header modal-blur">
   <h1 class="h1" [innerHtml]="content.title"></h1>
 </header>
-<div class="controls modal-blur">
-  <p class="p time-tracker">Seat Time: {{ time }} seconds</p>
-  <button class="button std" (click)="launchSampleModal()" [disabled]="!initialized">Show Modal Window</button>
-  <button class="button std" (click)="loading ? hideLoader() : showSpinner()" [disabled]="!initialized">{{ loading ? 'Hide Current' : 'Show Spinner'}} Loader</button>
-  <button class="button std" (click)="loading ? hideLoader() : showEllipsis()" [disabled]="!initialized">{{ loading ? 'Hide Current' : 'Show Ellipsis'}} Loader</button>
+<div class="controls modal-blur grid-60 default-15">
+  <p class="p time-tracker cell">Seat Time: {{ time }} seconds</p>
+  <span class="cell"><button class="button std" (click)="launchSampleModal()" [disabled]="!initialized">Show Modal Window</button></span>
+  <span class="cell"><button class="button std" (click)="loading ? hideLoader() : showSpinner()" [disabled]="!initialized">{{ loading ? 'Hide Current' : 'Show Spinner'}} Loader</button></span>
+  <span class="cell"><button class="button std" (click)="loading ? hideLoader() : showEllipsis()" [disabled]="!initialized">{{ loading ? 'Hide Current' : 'Show Ellipsis'}} Loader</button></span>
 </div>
 <page-viewer class="content-panel modal-blur" [ngClass]="currentPageClass" [history]="false">
   <page-template [id]="Page.Home" title="Home">
@@ -23,13 +23,13 @@ You may want to preserve the page-viewer, modal, loader and tracker elements bec
   </page-template>
   <page-template [id]="Page.About" title="About">
     <h2 class="h2 wide"><a href="javascript:void(0)" (click)="viewer.setCurrentPage(Page.Home)">&larr;</a> EMS Component Documentation</h2>
-    <div class="controls">
-      <button class="button std" [disabled]="currentDoc === DocType.Utils" (click)="changeDoc(DocType.Utils)">EMS Utility Methods</button>
-      <button class="button std" [disabled]="currentDoc === DocType.Pipes" (click)="changeDoc(DocType.Pipes)">Pipes</button>
-      <button class="button std" [disabled]="currentDoc === DocType.Loader" (click)="changeDoc(DocType.Loader)">Loader Animation</button>
-      <button class="button std" [disabled]="currentDoc === DocType.Modal" (click)="changeDoc(DocType.Modal)">Modal Window</button>
-      <button class="button std" [disabled]="currentDoc === DocType.PageViewer" (click)="changeDoc(DocType.PageViewer)">Page Viewer</button>
-      <button class="button std" [disabled]="currentDoc === DocType.SeatTime" (click)="changeDoc(DocType.SeatTime)">Seat Time Tracker</button>
+    <div class="controls grid-60 default-10">
+      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Utils" (click)="changeDoc(DocType.Utils)">EMS Utility Methods</button></span>
+      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Pipes" (click)="changeDoc(DocType.Pipes)">Pipes</button></span>
+      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Loader" (click)="changeDoc(DocType.Loader)">Loader Animation</button></span>
+      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Modal" (click)="changeDoc(DocType.Modal)">Modal Window</button></span>
+      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.PageViewer" (click)="changeDoc(DocType.PageViewer)">Page Viewer</button></span>
+      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.SeatTime" (click)="changeDoc(DocType.SeatTime)">Seat Time Tracker</button></span>
     </div>
     <iframe class="wide" [class.transitioning]="transitioning" [src]="currentDoc|safe:SanitizerType.ResourceUrl"></iframe> <!-- example safe pipe -->
   </page-template>
