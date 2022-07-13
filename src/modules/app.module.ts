@@ -10,6 +10,7 @@ import { SeatTimeModule } from "ems-web-app-seat-time";
 import { PipesModule } from "ems-web-app-pipes";
 import { BreakpointModule, BreakpointService } from "ems-web-app-breakpoint-detection";
 import { MessagesModule, MessagesService } from "ems-web-app-messages";
+import { CognitoModule, CognitoService } from "ems-web-app-cognito";
 
 import { AppComponent } from '../components';
 import { AppService, HttpService, ContentService } from "../services";
@@ -30,9 +31,10 @@ import { AppService, HttpService, ContentService } from "../services";
     SeatTimeModule,
     PipesModule,
     BreakpointModule,
-    MessagesModule
+    MessagesModule,
+    CognitoModule
   ],
-  providers: [ ModalService, LoaderService, PageViewerService, AppService, HttpService, ContentService, BreakpointService, MessagesService ],
+  providers: [ ModalService, LoaderService, PageViewerService, AppService, HttpService, ContentService, BreakpointService, MessagesService, CognitoService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

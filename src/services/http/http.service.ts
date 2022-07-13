@@ -29,7 +29,7 @@ export class HttpService {
 		const idToken = getparams("id_token") || window.localStorage.getItem("id_token");
 	    
 	    if(empty(accessToken) || empty(idToken)) {
-	      window.localStorage.clear();
+	     // window.localStorage.clear();
 	    } else {
 	      window.localStorage.setItem("access_token", accessToken);
 	      window.localStorage.setItem("id_token", idToken);

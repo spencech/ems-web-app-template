@@ -1,0 +1,162 @@
+<title>AWS Cognito Username/Password Authentication</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style> body { font-family: 'Open Sans', sans-serif; background: #111; color:  white; padding: 1rem } h1,h2,h3, a, a:visited { color: #0cf; } 
+body::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar
+{
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb
+{
+    background-color: #027DFA;
+    border-radius: 4px;
+}
+
+scrollbar-color: #027DFA white;
+
+</style>
+<h1 id="ems-web-application-components-aws-cognito-usernamepassword-authentication">EMS Web Application Components: AWS Cognito Username/Password Authentication</h1>
+<p><strong>Note:</strong> This module has peer dependencies on AWS packages.</p>
+<pre><code>npm i aws-sdk amazon-cognito-identity-js cross-fetch ems-web-app-cognito
+</code></pre>
+<p>The Cognito Angular.io module is authored for use within web applications developed by <a href="https://educationalmediasolutions.com">Educational Media Solutions</a>.</p>
+<p>Find the <a href="https://github.com/spencech/ems-web-app-template">web application template source code on GitHub</a> to review implementation in context.</p>
+<p>Find a <a href="https://ems-web-app.educationalmediasolutions.com">working example of this component here</a>.</p>
+<p>This package includes a component, service and supporting classes that wrap the <a href="https://www.npmjs.com/package/amazon-cognito-identity-js">Amazon Cognito Identity SDK</a> to enable simple username/password authentication. </p>
+<p>You must set up the User Pool, App Client and Identity Pool in Cognito; this package supports only SRP / email auth flow. This package will be extended as we encounter different auth needs.</p>
+<p>Styling is intentionally bare, you will need to customize the CSS to suit your UI requirements.</p>
+<p>This library was generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 13.2.0.</p>
+<h2 id="indexhtml">Index.html</h2>
+<p><strong>Note:</strong> The Cognito SDK complains about a missing global property on the window; to hack a fix for this, add the below to the head tag of your index.html file</p>
+<pre><code>&lt;!-- cognito sdk within angular fix --&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;window.global = window;&lt;/script&gt;
+</code></pre>
+<h2 id="module-implementation">Module Implementation</h2>
+<pre><code>import { NgModule } from &#39;@angular/core&#39;;
+import { BrowserModule } from &#39;@angular/platform-browser&#39;;
+import { CommonModule } from &#39;@angular/common&#39;;  
+
+import { AppComponent } from &#39;./app.component&#39;;
+import { CognitoModule, CognitoService } from &quot;ems-web-app-cognito&quot;;
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    CommonModule,
+    CognitoModule
+  ],
+  providers: [ CognitoService ],
+  bootstrap: [ AppComponent ]
+})
+export class AppModule { }
+</code></pre>
+<h2 id="component-implementation-template-element">Component Implementation: Template Element</h2>
+<pre><code>&lt;cognito pool-id=&quot;us-east-1_xxxxxxxx&quot; client-id=&quot;xxxxxxxxxxxxxxxxxxx&quot; (connecting)=&quot;onConnecting($event)&quot;&gt;&lt;/cognito&gt;
+</code></pre>
+<p>Supply your user pool and app client id in the attributes above. It is strongly recommended that you use the <code>connecting</code> callback to render a loader/status indicator while the component engages with the server.</p>
+<h2 id="component-implementation-script">Component Implementation: Script</h2>
+<pre><code>import { Component, OnInit } from &#39;@angular/core&#39;;
+import { LoaderService, LoaderType } from &quot;ems-web-app-loader&quot;;
+import { delay } from &quot;ems-web-app-utils&quot;;
+import { CognitoService, CognitoFormType, CognitoStrings } from &quot;ems-web-app-cognito&quot;;
+
+@Component({
+  selector: &#39;app-root&#39;,
+  templateUrl: &#39;./app.component.html&#39;,
+  styleUrls: [&#39;./app.component.less&#39;]
+})
+export class AppComponent implements OnInit  {
+
+  public loading: boolean = false;
+  public loaderSize: number = 200;
+  public authenticated: boolean = false;
+
+
+  constructor(private loader: LoaderService, private cognito: CognitoService) {}
+
+  ngOnInit() {
+      //indicates whether the user has an active session; undefined if not
+      //argument is a CognitoUserSession obejct from AWS sdk
+      //you can use this to get access and id tokens for interaction with other AWS resources
+    this.cognito.session$.subscribe(session =&gt; {
+      delay(() =&gt; this.authenticated = session ? true : false);
+    });
+
+    // argument is a CognitoUser obejct from AWS sdk
+    this.cognito.user$.subscribe(user =&gt; {
+        console.log(user);
+    });
+  }
+  
+
+  onConnecting(connecting: boolean) {
+      //renders a modal overlay whenever component indicates an active server transaction
+    this.loader.load(connecting);
+  }
+
+  login() {
+    this.cognito.showForm(CognitoFormType.Login);
+  }
+
+  changePassword() {
+    this.cognito.showForm(CognitoFormType.UserPasswordReset);
+  }
+
+  async logout() {
+    await this.cognito.logout();
+    window.location.reload();
+  }
+}
+</code></pre>
+<h2 id="component-implementation-strings">Component Implementation: Strings</h2>
+<p>Update the static members of the class below to customize the form language and labels.</p>
+<pre><code>export class CognitoStrings {
+     public static onUserPasswordChangeSuccessful: string  = &quot;Update successful. Please log in with your new password.&quot;;
+     public static onVerificationCodeSent: string = &quot;Enter your email below to generate a verification code.&quot;;
+     public static onNewPasswordRequired: string = &quot;You need to create a new password. Please check your email for a verification code and then complete the form below.&quot;;
+     public static onFirstLogin: string = &quot;Please complete the fields below to finish account creation.&quot;;
+     public static onTooManyAttempts: string = &quot;Too many attempts. Please try again in 15 minutes.&quot;;
+     public static onPasswordUpdated: string = &quot;Your password has been updated successfully.&quot;;
+     public static labelEmail: string = &quot;Email Address&quot;;
+     public static labelPassword: string = &quot;Password&quot;;
+     public static labelForgotPassword: string = &quot;Forgot Password&quot;;
+     public static labelNewPassword: string = &quot;New Password&quot;;
+     public static labelCurrentPassword: string = &quot;Current Password&quot;;
+     public static labelConfirmNewPassword: string = &quot;Confirm New Password&quot;;
+     public static labelSubmit: string = &quot;Submit&quot;;
+     public static labelCode: string = &quot;Code&quot;;
+     public static labelClose: string = &quot;Close&quot;;
+     public static labelPasswordRequirement: string = &quot;Must be at least 8 characters and contain a number, special character, uppercase and lowercase letter.&quot;;
+}
+</code></pre>
+<p>Example:</p>
+<pre><code>CognitoStrings.labelCode = &quot;Your Verification Code&quot;
+</code></pre>
+<h2 id="code-scaffolding">Code scaffolding</h2>
+<p>Run <code>ng generate component component-name --project cognito</code> to generate a new component. You can also use <code>ng generate directive|pipe|service|class|guard|interface|enum|module --project cognito</code>.</p>
+<blockquote>
+<p>Note: Don&#39;t forget to add <code>--project cognito</code> or else it will be added to the default project in your <code>angular.json</code> file. </p>
+</blockquote>
+<h2 id="build">Build</h2>
+<p>Run <code>ng build cognito</code> to build the project. The build artifacts will be stored in the <code>dist/</code> directory.</p>
+<h2 id="publishing">Publishing</h2>
+<p>After building your library with <code>ng build cognito</code>, go to the dist folder <code>cd dist/cognito</code> and run <code>npm publish</code>.</p>
+<h2 id="running-unit-tests">Running unit tests</h2>
+<p>Run <code>ng test cognito</code> to execute the unit tests via <a href="https://karma-runner.github.io">Karma</a>.</p>
+<h2 id="further-help">Further help</h2>
+<p>To get more help on the Angular CLI use <code>ng help</code> or go check out the <a href="https://angular.io/cli">Angular CLI Overview and Command Reference</a> page.</p>

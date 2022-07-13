@@ -8,6 +8,7 @@ import { BreakpointService, Breakpoint, BreakpointValue, BreakpointType } from "
 import { MessagesService, MessageType, MessagePosition } from "ems-web-app-messages";
 import { Page, User } from "../../classes";
 import { AppService, HttpService, ContentService } from "../../services";
+import { CognitoService, CognitoFormType, CognitoStrings } from "ems-web-app-cognito";
 
 enum DocType {
   Loader = "/assets/loader.readme.html",
@@ -18,6 +19,7 @@ enum DocType {
   Pipes = "/assets/pipes.readme.html",
   Breakpoint = "/assets/breakpoint.readme.html",
   Messages = "/assets/messages.readme.html",
+  Cognito = "/assets/cognito.readme.html"
 }
 
 @Component({
@@ -42,10 +44,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   public currentDoc: DocType = DocType.Utils;
   public requestedDoc: DocType = DocType.Utils;
   public currentUser?: User;
+  public authenticated: boolean = false;
 
   constructor(public content: ContentService, public loader: LoaderService, public viewer: PageViewerService, 
                 private app: AppService, private http: HttpService, private modal: ModalService,
-                private breakpoint: BreakpointService, private messages: MessagesService) {
+                private breakpoint: BreakpointService, private messages: MessagesService, private cognito: CognitoService) {
 
   }
 
@@ -62,6 +65,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.breakpoint.currentBreakpoint.subscribe(breakpoint => {
       trace(`current breakpoint type: ${breakpoint?.type}`, `current breakpoint value: ${breakpoint?.value}`);
+    });
+
+    this.cognito.session$.subscribe(session => {
+      delay(() => this.authenticated = session ? true : false );
     });
   }
 
@@ -124,6 +131,21 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.currentDoc = requested;
       delay(() => this.transitioning = false);
     }, 250);
+  }
+
+  onConnecting(connecting: any) {
+    this.loader.load(connecting);
+  }
+
+  login() {
+    alert(`You can use the following credentials to log in. Username: test@educationalmediasolutions.com , Password: TempPassword1! `);
+    this.cognito.showForm(CognitoFormType.Login);
+  }
+
+  logout() {
+    this.loader.show();
+    this.cognito.logout();
+    window.location.reload();
   }
 
   public onCancelModal = () => {
