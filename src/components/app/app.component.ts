@@ -8,7 +8,7 @@ import { BreakpointService, Breakpoint, BreakpointValue, BreakpointType } from "
 import { MessagesService, MessageType, MessagePosition } from "ems-web-app-messages";
 import { Page, User } from "../../classes";
 import { AppService, HttpService, ContentService } from "../../services";
-import { CognitoService, CognitoFormType, CognitoStrings } from "ems-web-app-cognito";
+import { CognitoService, CognitoFormType, CognitoStrings, ICognitoUserData } from "ems-web-app-cognito";
 
 enum DocType {
   Loader = "/assets/loader.readme.html",
@@ -137,9 +137,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.loader.load(connecting);
   }
 
+  onAuthenticated(info: ICognitoUserData | null) {
+    trace("user information", info);
+  }
+
   login() {
     alert(`You can use the following credentials to log in. Username: test@educationalmediasolutions.com , Password: TempPassword1! `);
     this.cognito.showForm(CognitoFormType.Login);
+  }
+
+  loginWithGoogle() {
+    this.cognito.showForm(CognitoFormType.GoogleSignIn);
   }
 
   logout() {

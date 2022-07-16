@@ -19,7 +19,7 @@ You may want to preserve the page-viewer, modal, loader and tracker elements bec
     <p class="p">This foundation is preloaded with a few of the frequently used components across all of our applications, including the aforementioned page viewer, loader animations, modal displays and engagement time tracking.</p>
     <p class="p">Also included are a set of LESS mixins for form elements and basic effects, and a library of utility functions that have been used frequently in our work.</p>
     <p class="p">Add <a href="/?debug=true">/?debug=true</a> to the end of the url to view console logs rendering information for some of the non-visual components (like breakpoint change detection).</p>
-    <p class="p" *ngIf="!authenticated"><a href="javascript:void(0)" (click)="login()">Click here to test the authentication functionality.</a></p>
+    <p class="p" *ngIf="!authenticated"><a href="javascript:void(0)" (click)="login()">Click here to test the SRP authentication functionality.</a><br/><a href="javascript:void(0)" (click)="loginWithGoogle()">Click here to login with Google.</a></p>
     <p class="p" *ngIf="authenticated">You are currently logged in via AWS Cognito. <a href="javascript:void(0)" (click)="logout()">Click here to log out.</a></p>
     <div class="buttons">
       <button (click)="viewer.setCurrentPage(Page.About)" class="button std">Component Documentation</button>
@@ -55,7 +55,7 @@ You may want to preserve the page-viewer, modal, loader and tracker elements bec
   </div>
 </ng-template>
 <messages [z-index]="12000"></messages>
-<cognito pool-id="us-east-1_kLPi1f1Ff" client-id="tvtp773dq9jattkdc69fgg3mn" (connecting)="onConnecting($event)"></cognito>
+<cognito pool-id="us-east-1_kLPi1f1Ff" client-id="tvtp773dq9jattkdc69fgg3mn" cognito-signin-url="https://ems-sandbox.auth.us-east-1.amazoncognito.com" (authenticated)="onAuthenticated($event)" (connecting)="onConnecting($event)"></cognito>
 <modal class="modal" [transition-speed]="250" [z-index]="10001" background="rgba(255,255,255,0.25)"></modal>
 <loader [transition-speed]="250" [animation-duration]="loaderDuration" [z-index]="10000" [size]="loaderSize" color="#0099ff" background="rgba(255,255,255,.25)" ></loader>
 <tracker [time]="0" [interval]="1" [timeout]="60" (tick)="onSeatTimeUpdate($event)"></tracker>

@@ -21,7 +21,8 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": ["buffer", "crypto-js/core", "crypto-js/hmac-sha256",
-                "crypto-js/lib-typedarrays", "crypto-js/sha256", "isomorphic-unfetch", "crypto-js/enc-base64"],
+                "crypto-js/lib-typedarrays", "crypto-js/sha256", "isomorphic-unfetch", "crypto-js/enc-base64",
+                "@aws-crypto/sha256-browser", "entities", "fast-xml-parser"],
             "outputPath": "dist/web-app-template",
             "index": "src/html/index.html",
             "main": "src/main.ts",
