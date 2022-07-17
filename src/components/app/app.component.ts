@@ -9,6 +9,7 @@ import { MessagesService, MessageType, MessagePosition } from "ems-web-app-messa
 import { Page, User } from "../../classes";
 import { AppService, HttpService, ContentService } from "../../services";
 import { CognitoService, CognitoFormType, CognitoStrings, ICognitoUserData } from "ems-web-app-cognito";
+import { ViewContainerService } from "ems-web-app-view-container";
 
 enum DocType {
   Loader = "/assets/loader.readme.html",
@@ -19,7 +20,8 @@ enum DocType {
   Pipes = "/assets/pipes.readme.html",
   Breakpoint = "/assets/breakpoint.readme.html",
   Messages = "/assets/messages.readme.html",
-  Cognito = "/assets/cognito.readme.html"
+  Cognito = "/assets/cognito.readme.html",
+  ViewContainer = "/assets/view-container.readme.html"
 }
 
 @Component({
@@ -41,14 +43,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   public SanitizerType = SanitizerType;
   public DocType = DocType;
   public currentPageClass: string = "";
-  public currentDoc: DocType = DocType.Utils;
-  public requestedDoc: DocType = DocType.Utils;
+  public currentDoc?: DocType;
   public currentUser?: User;
   public authenticated: boolean = false;
+  public docs: DocType[] = [DocType.Loader, DocType.Modal, DocType.PageViewer, DocType.SeatTime, DocType.Utils,
+                            DocType.Pipes, DocType.Breakpoint, DocType.Messages, DocType.Cognito, DocType.ViewContainer];
 
   constructor(public content: ContentService, public loader: LoaderService, public viewer: PageViewerService, 
                 private app: AppService, private http: HttpService, private modal: ModalService,
-                private breakpoint: BreakpointService, private messages: MessagesService, private cognito: CognitoService) {
+                private breakpoint: BreakpointService, private messages: MessagesService, 
+                private cognito: CognitoService, private viewContainer: ViewContainerService) {
 
   }
 
@@ -125,12 +129,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   changeDoc(requested: DocType) {
-    this.requestedDoc = requested; //allows button state to change immediately
-    this.transitioning = true; //starts fade down
-    delay(() => {
-      this.currentDoc = requested;
-      delay(() => this.transitioning = false);
-    }, 250);
+    this.currentDoc = requested;
+    this.viewContainer.setCurrentView(this.getDocId(requested), "document-container");
   }
 
   onConnecting(connecting: any) {
@@ -154,6 +154,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.loader.show();
     this.cognito.logout();
     window.location.reload();
+  }
+
+  getDocId(type: string): string {
+    return type.replace(/^.*\/(.*?).readme.html/i,"$1");
   }
 
   public onCancelModal = () => {

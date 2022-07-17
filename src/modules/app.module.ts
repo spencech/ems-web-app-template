@@ -11,6 +11,7 @@ import { PipesModule } from "ems-web-app-pipes";
 import { BreakpointModule, BreakpointService } from "ems-web-app-breakpoint-detection";
 import { MessagesModule, MessagesService } from "ems-web-app-messages";
 import { CognitoModule, CognitoService } from "ems-web-app-cognito";
+import { ViewContainerModule, ViewContainerService } from "ems-web-app-view-container";
 
 import { AppComponent } from '../components';
 import { AppService, HttpService, ContentService } from "../services";
@@ -32,9 +33,10 @@ import { AppService, HttpService, ContentService } from "../services";
     PipesModule,
     BreakpointModule,
     MessagesModule,
-    CognitoModule
+    CognitoModule,
+    ViewContainerModule
   ],
-  providers: [ ModalService, LoaderService, PageViewerService, AppService, HttpService, ContentService, BreakpointService, MessagesService, CognitoService ],
+  providers: [ ModalService, LoaderService, PageViewerService, AppService, HttpService, ContentService, BreakpointService, MessagesService, CognitoService, ViewContainerService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

@@ -37,8 +37,14 @@ You may want to preserve the page-viewer, modal, loader and tracker elements bec
       <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Breakpoint" (click)="changeDoc(DocType.Breakpoint)">Breakpoint</button></span>
       <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Messages" (click)="changeDoc(DocType.Messages)">Messages</button></span>
       <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Cognito" (click)="changeDoc(DocType.Cognito)">Cognito</button></span>
+      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.ViewContainer" (click)="changeDoc(DocType.ViewContainer)">ViewContainer</button></span>
     </div>
-    <iframe class="wide" [class.transitioning]="transitioning" [src]="currentDoc|safe:SanitizerType.ResourceUrl"></iframe> <!-- example safe pipe -->
+    <view-container id="document-container">
+      <view [id]="getDocId(doc)" *ngFor="let doc of docs">
+        <iframe class="wide" [class.transitioning]="transitioning" [src]="doc|safe:SanitizerType.ResourceUrl"></iframe> <!-- example safe pipe -->
+      </view>
+    </view-container>
+    
   </page-template>
 </page-viewer>
 
