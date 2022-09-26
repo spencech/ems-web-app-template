@@ -14,37 +14,42 @@ You may want to preserve the page-viewer, modal, loader and tracker elements bec
 </div>
 <page-viewer class="content-panel modal-blur" [ngClass]="currentPageClass" [history]="false">
   <page-template [id]="Page.Home" title="Home">
-    <h2 class="h2" [innerHtml]="'Template ${overview}'|tokens:'overview':'Overview'"></h2> <!-- example token pipe -->
-    <p class="p">Use this template to begin new web application development (<a href="https://github.com/spencech/ems-web-app-template" target="_blank">View it on GitHub</a>). The PageViewer module (rendering this text content) is meant to be the primary display driver, enabling smooth transitions between SPA display states/views.</p>
-    <p class="p">This foundation is preloaded with a few of the frequently used components across all of our applications, including the aforementioned page viewer, loader animations, modal displays and engagement time tracking.</p>
-    <p class="p">Also included are a set of LESS mixins for form elements and basic effects, and a library of utility functions that have been used frequently in our work.</p>
-    <p class="p">Add <a href="/?debug=true">/?debug=true</a> to the end of the url to view console logs rendering information for some of the non-visual components (like breakpoint change detection).</p>
-    <p class="p" *ngIf="!authenticated"><a href="javascript:void(0)" (click)="login()">Click here to test the SRP authentication functionality.</a><br/><a href="javascript:void(0)" (click)="loginWithGoogle()">Click here to login with Google.</a></p>
-    <p class="p" *ngIf="authenticated">You are currently logged in via AWS Cognito. <a href="javascript:void(0)" (click)="logout()">Click here to log out.</a></p>
-    <div class="buttons">
-      <button (click)="viewer.setCurrentPage(Page.About)" class="button std">Component Documentation</button>
-    </div>
+    <ng-template>
+      <h2 class="h2" [innerHtml]="'Template ${overview}'|tokens:'overview':'Overview'"></h2> <!-- example token pipe -->
+      <p class="p">Use this template to begin new web application development (<a href="https://github.com/spencech/ems-web-app-template" target="_blank">View it on GitHub</a>). The PageViewer module (rendering this text content) is meant to be the primary display driver, enabling smooth transitions between SPA display states/views.</p>
+      <p class="p">This foundation is preloaded with a few of the frequently used components across all of our applications, including the aforementioned page viewer, loader animations, modal displays and engagement time tracking.</p>
+      <p class="p">Also included are a set of LESS mixins for form elements and basic effects, and a library of utility functions that have been used frequently in our work.</p>
+      <p class="p">Add <a href="/?debug=true">/?debug=true</a> to the end of the url to view console logs rendering information for some of the non-visual components (like breakpoint change detection).</p>
+      <p class="p" *ngIf="!authenticated"><a href="javascript:void(0)" (click)="login()">Click here to test the SRP authentication functionality.</a><br/><a href="javascript:void(0)" (click)="loginWithGoogle()">Click here to login with Google.</a></p>
+      <p class="p" *ngIf="authenticated">You are currently logged in via AWS Cognito. <a href="javascript:void(0)" (click)="logout()">Click here to log out.</a></p>
+      <div class="buttons">
+        <button (click)="viewer.setCurrentPage(Page.About)" class="button std">Component Documentation</button>
+      </div>
+    </ng-template>
   </page-template>
   <page-template [id]="Page.About" title="About">
-    <h2 class="h2 wide"><a href="javascript:void(0)" (click)="viewer.setCurrentPage(Page.Home)">Home</a> &gt; EMS Component Documentation</h2>
-    <div class="controls grid-60 default-12">
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Utils" (click)="changeDoc(DocType.Utils)">EMS Utility Methods</button></span>
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Pipes" (click)="changeDoc(DocType.Pipes)">Pipes</button></span>
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Loader" (click)="changeDoc(DocType.Loader)">Loader Animation</button></span>
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Modal" (click)="changeDoc(DocType.Modal)">Modal Window</button></span>
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.PageViewer" (click)="changeDoc(DocType.PageViewer)">Page Viewer</button></span>
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.SeatTime" (click)="changeDoc(DocType.SeatTime)">Seat Time Tracker</button></span>
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Breakpoint" (click)="changeDoc(DocType.Breakpoint)">Breakpoint</button></span>
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Messages" (click)="changeDoc(DocType.Messages)">Messages</button></span>
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Cognito" (click)="changeDoc(DocType.Cognito)">Cognito</button></span>
-      <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.ViewContainer" (click)="changeDoc(DocType.ViewContainer)">ViewContainer</button></span>
-    </div>
-    <view-container id="document-container">
-      <view [id]="getDocId(doc)" *ngFor="let doc of docs">
-        <iframe class="wide" [class.transitioning]="transitioning" [src]="doc|safe:SanitizerType.ResourceUrl"></iframe> <!-- example safe pipe -->
-      </view>
-    </view-container>
-    
+    <ng-template>
+      <h2 class="h2 wide"><a href="javascript:void(0)" (click)="viewer.setCurrentPage(Page.Home)">Home</a> &gt; EMS Component Documentation</h2>
+      <div class="controls grid-60 default-12">
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Utils" (click)="changeDoc(DocType.Utils)">EMS Utility Methods</button></span>
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Pipes" (click)="changeDoc(DocType.Pipes)">Pipes</button></span>
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Loader" (click)="changeDoc(DocType.Loader)">Loader Animation</button></span>
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Modal" (click)="changeDoc(DocType.Modal)">Modal Window</button></span>
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.PageViewer" (click)="changeDoc(DocType.PageViewer)">Page Viewer</button></span>
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.SeatTime" (click)="changeDoc(DocType.SeatTime)">Seat Time Tracker</button></span>
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Breakpoint" (click)="changeDoc(DocType.Breakpoint)">Breakpoint</button></span>
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Messages" (click)="changeDoc(DocType.Messages)">Messages</button></span>
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.Cognito" (click)="changeDoc(DocType.Cognito)">Cognito</button></span>
+        <span class="cell"><button class="button std" [disabled]="currentDoc === DocType.ViewContainer" (click)="changeDoc(DocType.ViewContainer)">ViewContainer</button></span>
+      </div>
+      <view-container id="document-container">
+        <view [id]="getDocId(doc)" *ngFor="let doc of docs">
+           <ng-template>
+            <iframe class="wide" [class.transitioning]="transitioning" [src]="doc|safe:SanitizerType.ResourceUrl"></iframe> <!-- example safe pipe -->
+          </ng-template>
+        </view>
+      </view-container>           
+    </ng-template>
   </page-template>
 </page-viewer>
 
