@@ -114,5 +114,7 @@
       }
     }
   },
-  "defaultProject": "web-app-template"
+  "cli": {
+    "analytics": false
+  }
 }
