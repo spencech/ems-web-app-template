@@ -18,15 +18,18 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": ["buffer", "crypto-js/core", "crypto-js/hmac-sha256",
                 "crypto-js/lib-typedarrays", "crypto-js/sha256", "isomorphic-unfetch", "crypto-js/enc-base64",
                 "@aws-crypto/sha256-browser", "entities", "fast-xml-parser"],
-            "outputPath": "dist/web-app-template",
+            "outputPath": {
+              "base": "dist/web-app-template"
+            },
             "index": "src/html/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "assets": [
@@ -36,7 +39,8 @@
             "styles": [
               "src/styles/global.less"
             ],
-            "scripts": []
+            "scripts": [],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -65,9 +69,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true

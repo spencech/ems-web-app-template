@@ -1,5 +1,5 @@
 import { TestBed, async, tick, fakeAsync, inject, flush, discardPeriodicTasks } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppComponent } from './app.component';
 import { AppService, HttpService, ContentService } from "../../services";
 import { ModalModule, ModalService, ModalData } from "ems-web-app-modal";
@@ -8,24 +8,22 @@ import { LoaderModule, LoaderService } from "ems-web-app-loader";
 import { SeatTimeModule, SeatTimeComponent } from "ems-web-app-seat-time";
 import { PipesModule } from "ems-web-app-pipes";
 import { Page } from "../../classes";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AppComponent', () => {
   let modalService: ModalService, loaderService: LoaderService, viewerService: PageViewerService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        ModalModule,
+    declarations: [
+        AppComponent,
+    ],
+    imports: [ModalModule,
         LoaderModule,
         PageViewerModule,
         SeatTimeModule,
-        PipesModule
-      ],
-      providers: [AppService, HttpService, ContentService, ModalService, PageViewerService, LoaderService],
-      declarations: [
-        AppComponent,
-      ],
-    }).compileComponents();
+        PipesModule],
+    providers: [AppService, HttpService, ContentService, ModalService, PageViewerService, LoaderService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
      modalService = TestBed.inject(ModalService);
      loaderService = TestBed.inject(LoaderService);
